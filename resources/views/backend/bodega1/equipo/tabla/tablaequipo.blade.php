@@ -9,7 +9,6 @@
                             <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Imagen</th>
                                 <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
@@ -19,13 +18,6 @@
                             @foreach($listado as $dato)
                                 <tr>
                                     <td>{{ $dato->nombre }}</td>
-
-                                    @if($dato->imagen == "")
-                                        <td><center><img alt="imagen" src="{{ url('images/foto-default.png') }}" width="150px" height="150px" /></center></td>
-                                    @else
-                                        <td><center><img alt="imagen" src="{{ url('storage/imagenes/'.$dato->imagen) }}" width="150px" height="150px" /></center></td>
-                                    @endif
-
 
                                     @if($dato->activo == 1)
                                         <td><span class="badge bg-success">Activo</span></td>

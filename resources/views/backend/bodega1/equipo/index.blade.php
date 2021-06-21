@@ -69,16 +69,6 @@
                                         <input type="text" maxlength="50" class="form-control" id="nombre-nuevo" placeholder="Nombre">
                                     </div>
 
-                                    <div class="form-group">
-                                        <div>
-                                            <label>Imagen</label>
-                                        </div>
-                                        <br>
-                                        <div class="col-md-10">
-                                            <input type="file" style="color:#191818" id="imagen-nuevo" accept="image/jpeg, image/jpg, image/png"/>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -113,16 +103,7 @@
                                         <input type="text" maxlength="50" class="form-control" id="nombre-editar">
                                     </div>
                                     <hr>
-                                    <div class="form-group">
-                                        <div>
-                                            <label>Imagen</label>
-                                        </div>
-                                        <br>
-                                        <div class="col-md-10">
-                                            <input type="file" style="color:#191818" id="imagen-editar" accept="image/jpeg, image/jpg, image/png"/>
-                                        </div>
-                                    </div>
-                                    <hr>
+
                                     <div class="form-group" style="margin-left:20px">
                                         <label>Estado</label><br>
                                         <label class="switch" style="margin-top:10px">
@@ -178,7 +159,6 @@
 
         function nuevo(){
             var nombre = document.getElementById('nombre-nuevo').value;
-            var imagen = document.getElementById('imagen-nuevo');
 
             if(nombre === ''){
                 toastMensaje('error', 'Nombre es requerido');
@@ -190,17 +170,9 @@
                 return;
             }
 
-            if(imagen.files && imagen.files[0]){ // si trae imagen
-                if (!imagen.files[0].type.match('image/jpeg|image/jpeg|image/png')){
-                    alertaMensaje('error', 'Formato incorrecto', 'Formato de imagen permitido: .png .jpg .jpeg')
-                    return false;
-                }
-            }
-
             openLoading()
             var formData = new FormData();
             formData.append('nombre', nombre);
-            formData.append('imagen', imagen.files[0]);
 
             axios.post('/equipos/listado-nuevo', formData, {
             })
@@ -236,7 +208,6 @@
                         $('#modalEditar').modal('show');
                         $('#id-editar').val(response.data.info.id);
                         $('#nombre-editar').val(response.data.info.nombre);
-                        $('#descripcion-editar').val(response.data.info.descripcion);
 
                         if(response.data.info.activo == 0){
                             $("#toggle-editar").prop("checked", false);
@@ -258,7 +229,6 @@
         function editar(){
             var id = document.getElementById('id-editar').value;
             var nombre = document.getElementById('nombre-editar').value;
-            var imagen = document.getElementById('imagen-editar');
 
             var t = document.getElementById('toggle-editar').checked;
             var toggleEditar = t ? 1 : 0;
@@ -273,19 +243,11 @@
                 return;
             }
 
-            if(imagen.files && imagen.files[0]){ // si trae imagen
-                if (!imagen.files[0].type.match('image/jpeg|image/jpeg|image/png')){
-                    alertaMensaje('error', 'Formato incorrecto', 'Formato de imagen permitido: .png .jpg .jpeg')
-                    return false;
-                }
-            }
-
             openLoading();
 
             var formData = new FormData();
             formData.append('id', id);
             formData.append('nombre', nombre);
-            formData.append('imagen', imagen.files[0]);
             formData.append('toggle', toggleEditar);
 
             axios.post('/equipos/listado-editar', formData, {
