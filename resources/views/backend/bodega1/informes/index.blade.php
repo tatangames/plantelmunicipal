@@ -131,7 +131,7 @@
             formData.append('desde', fechadesde);
             formData.append('hasta', fechahasta);
 
-            axios.post('/informes/bodega1/ingresos-fechas', formData, {
+            axios.post('/admin1/informes/bodega1/ingresos-fechas', formData, {
             })
                 .then((response) => {
                     closeLoading();

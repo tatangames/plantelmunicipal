@@ -58,7 +58,7 @@
         $(document).ready(function(){
 
             var id = {{ $idmaterial }}; // id del material para ver historial ingreso
-            var ruta = "{{ URL::to('materiales/histo/ingreso/tabla/') }}/"+ id;
+            var ruta = "{{ URL::to('/admin1/materiales/histo/ingreso/tabla/') }}/"+ id;
             $('#tablaDatatable').load(ruta);
 
         });

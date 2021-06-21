@@ -222,7 +222,7 @@
             formData.append('correo', correo);
             formData.append('observaciones', observaciones);
 
-            axios.post('/proveedor/ingreso/nuevo', formData, {
+            axios.post('/admin1/proveedor/ingreso/nuevo', formData, {
             })
                 .then((response) => {
                     closeLoading();

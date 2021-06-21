@@ -66,7 +66,7 @@
                 return;
             }
 
-            window.open("{{ URL::to('reportes/bodega1/ingreso') }}/" + fechadesde + "/" + fechahasta);
+            window.open("{{ URL::to('/admin1/reportes/bodega1/ingreso') }}/" + fechadesde + "/" + fechahasta);
         }
 
 

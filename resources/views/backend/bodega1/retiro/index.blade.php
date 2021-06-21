@@ -117,7 +117,7 @@
         $('#persona').autocomplete({
             source: function(request, response){
 
-                axios.post('/retiro/bodega/buscar', {
+                axios.post('/admin1/retiro/bodega/buscar', {
                     'nombre' : request.term
                 })
                     .then((res) => {
@@ -133,7 +133,7 @@
             $('#'+(value)+'').autocomplete({
                 source: function(request, response){
 
-                    axios.post('/bodega/buscar/material', {
+                    axios.post('/admin1/bodega/buscar/material', {
                         'nombre' : request.term
                     })
                         .then((res) => {
@@ -279,7 +279,7 @@
                 formData.append('cantidad[]', cantidad[a]);
             }
 
-            axios.post('/retiro/bodega/material', formData, {
+            axios.post('/admin1/retiro/bodega/material', formData, {
             })
                 .then((response) => {
                     closeLoading();

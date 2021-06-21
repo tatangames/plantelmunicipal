@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <button type="button" onclick="abrirModalAgregar()" class="btn btn-success btn-sm">
             <i class="fas fa-pencil-alt"></i>
-            Registrar Nuevo Tipo
+            Registrar Nuevo Equipo
         </button>
     </div>
 </section>
@@ -69,11 +69,6 @@
                                         <input type="text" maxlength="50" class="form-control" id="nombre-nuevo" placeholder="Nombre">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>Descripción</label>
-                                        <input type="text" maxlength="150" class="form-control" id="descripcion-nuevo" placeholder="Descripción">
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -81,7 +76,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="verificar()">Agregar</button>
+                    <button type="button" class="btn btn-success" onclick="nuevo()">Agregar</button>
                 </div>
             </div>
         </div>
@@ -91,7 +86,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Editar Tipo</h4>
+                    <h4 class="modal-title">Editar Equipo</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -107,11 +102,7 @@
                                         <input type="hidden" id="id-editar">
                                         <input type="text" maxlength="50" class="form-control" id="nombre-editar">
                                     </div>
-
-                                    <div class="form-group">
-                                        <label>Descripción</label>
-                                        <input type="text" maxlength="150" class="form-control" id="descripcion-editar">
-                                    </div>
+                                    <hr>
 
                                     <div class="form-group" style="margin-left:20px">
                                         <label>Estado</label><br>
@@ -154,7 +145,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/tipos/listado-tabla') }}";
+            var ruta = "{{ URL::to('/admin2/equipos/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -166,9 +157,8 @@
             $('#modalAgregar').modal('show');
         }
 
-        function verificar(){
+        function nuevo(){
             var nombre = document.getElementById('nombre-nuevo').value;
-            var descripcion = document.getElementById('descripcion-nuevo').value;
 
             if(nombre === ''){
                 toastMensaje('error', 'Nombre es requerido');
@@ -180,33 +170,28 @@
                 return;
             }
 
-            if(descripcion.length > 150){
-                toastMensaje('error', '150 caracteres máximo para Descripción');
-                return;
-            }
-
-            let formData = new FormData();
+            openLoading()
+            var formData = new FormData();
             formData.append('nombre', nombre);
-            formData.append('descripcion', descripcion);
 
-            axios.post('/admin1/tipos/listado-nuevo', formData, {
+            axios.post('/admin2/equipos/listado-nuevo', formData, {
             })
                 .then((response) => {
-                    if(response.data.success === 1){
-                        toastMensaje('success', 'Agregado');
-                        recargar();
+                    closeLoading()
+                    if(response.data.success == 1){
                         $('#modalAgregar').modal('hide');
-                    }else{
-                        toastMensaje('error', 'Error');
+                        toastMensaje('success', 'Registrado');
+                        recargar();
                     }
                 })
                 .catch((error) => {
-                    toastMensaje('error', 'Error');
+                    closeLoading()
+                    toastMensaje('error', 'Error al guardar');
                 });
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/tipos/listado-tabla') }}/";
+            var ruta = "{{ url('/admin2/equipos/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -214,7 +199,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/tipos/listado-info',{
+            axios.post('/admin2/equipos/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -223,7 +208,6 @@
                         $('#modalEditar').modal('show');
                         $('#id-editar').val(response.data.info.id);
                         $('#nombre-editar').val(response.data.info.nombre);
-                        $('#descripcion-editar').val(response.data.info.descripcion);
 
                         if(response.data.info.activo == 0){
                             $("#toggle-editar").prop("checked", false);
@@ -245,8 +229,9 @@
         function editar(){
             var id = document.getElementById('id-editar').value;
             var nombre = document.getElementById('nombre-editar').value;
-            var descripcion = document.getElementById('descripcion-editar').value;
+
             var t = document.getElementById('toggle-editar').checked;
+            var toggleEditar = t ? 1 : 0;
 
             if(nombre === ''){
                 toastMensaje('error', 'Nombre es requerido');
@@ -258,35 +243,30 @@
                 return;
             }
 
-            if(descripcion.length > 150){
-                toastMensaje('error', '150 caracteres máximo para Descripción');
-                return;
-            }
+            openLoading();
 
-            var toggleEditar = t ? 1 : 0;
-
-            let formData = new FormData();
+            var formData = new FormData();
             formData.append('id', id);
             formData.append('nombre', nombre);
-            formData.append('descripcion', descripcion);
             formData.append('toggle', toggleEditar);
 
-            axios.post('/admin1/tipos/listado-editar', formData, {
+            axios.post('/admin2/equipos/listado-editar', formData, {
             })
                 .then((response) => {
-                    if(response.data.success === 1){
+                    closeLoading();
+                    if(response.data.success == 1){
+                        $('#modalEditar').modal('hide');
                         toastMensaje('success', 'Actualizado');
                         recargar();
-                        $('#modalEditar').modal('hide');
                     }else{
-                        toastMensaje('error', 'Error');
+                        toastMensaje('error', 'Error al editar')
                     }
                 })
                 .catch((error) => {
-                    toastMensaje('error', 'Error');
+                    closeLoading();
+                    toastMensaje('error', 'Error al editar');
                 });
         }
-
 
     </script>
 

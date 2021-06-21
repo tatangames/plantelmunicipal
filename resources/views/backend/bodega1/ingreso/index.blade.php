@@ -141,7 +141,7 @@
             $('#'+(value)+'').autocomplete({
                 source: function(request, response){
 
-                    axios.post('/bodega/buscar/material', {
+                    axios.post('/admin1/bodega/buscar/material', {
                         'nombre' : request.term
                     })
                         .then((res) => {
@@ -342,7 +342,7 @@
                 }
             });
 
-            axios.post('/bodega/registrar/material', formData, {
+            axios.post('/admin1/bodega/registrar/material', formData, {
             })
                 .then((response) => {
                     closeLoading();
