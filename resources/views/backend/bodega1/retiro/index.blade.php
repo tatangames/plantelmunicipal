@@ -1,0 +1,373 @@
+@extends('backend.menus.superior')
+
+@section('content-admin-css')
+    <link href="{{ asset('css/adminlte.min.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/dataTables.bootstrap4.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/toastr.min.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('css/jquery-ui.min.css') }}" type="text/css" rel="stylesheet" />
+
+@stop
+
+<section class="content-header">
+    <div class="container-fluid">
+
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-green">
+                    <div class="card-header">
+                        <h3 class="card-title">Retiro de Material, Herramienta y Equipo</h3>
+                    </div>
+                    <form>
+                        <div class="card-body">
+
+                            <div class="form-group row" >
+                                <label class="control-label">Equipo: </label>
+                                <div class="col-sm-5" style="margin-left: 18px">
+                                    <select id="select-equipo" class="form-control selectpicker" data-live-search="true">
+                                        @foreach($equipo as $item)
+                                            <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-top: 30px; margin-left: 3px">
+                                <label class="control-label">Notas: </label>
+                                <div class="col-sm-5" style="margin-left: 18px">
+                                    <input id="nota" maxlength="800" class="form-control" type="text" value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-top: 30px">
+                                <label class="control-label">Nombre Quien Solicito: </label>
+                                <div class="col-sm-3 ui-front" style="margin-left: 18px">
+                                    <input name="persona" id="persona" maxlength="50" class="form-control" type="text" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <table class="table" id="matriz"  data-toggle="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Material</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Cantidad</th>
+
+                                    <th scope="col">Opciones</th>
+                                </tr>
+                                </thead>
+                                <tbody id="myTbody">
+
+                                <tr id="0">
+                                    <td><p name="fila[]" disabled id="fila0" class="form-control" style="max-width: 65px">1</td>
+                                    <td><input name="material[]" id="material0" onkeydown="buscarNombre(this.id)" maxlength="300" class="form-control" type="text" value="" autocomplete="off"></td>
+                                    <td><input name="descripcion[]" maxlength="500" class="form-control" type="text" value=""></td>
+                                    <td><input name="cantidad[]" class="form-control" type="number" step="1" style="max-width: 85px" ></td>
+                                    <td><button type="button" class="btn btn-block btn-danger" id="btnBorrar" onclick="borrarFila(this)">Borrar</button></td>
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <br>
+                            <button type="button" class="btn btn-block btn-success" id="btnAdd">Agregar Fila</button>
+                            <br>
+                            <div class="card-footer">
+                                <button id="btnguardar" type="button"  class="btn btn-success float-right" onclick="verificar();">Guardar Registros</button>
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+@extends('backend.menus.footerjs')
+@section('archivos-js')
+
+    <script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/axios.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/alertaPersonalizada.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-select.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+
+    <script>
+
+        // busca el nombre de la persona que solicito el repuesto
+        // sino existe se va a crear un nombre nuevo
+        $('#persona').autocomplete({
+            source: function(request, response){
+
+                axios.post('/retiro/bodega/buscar', {
+                    'nombre' : request.term
+                })
+                    .then((res) => {
+                        response(res.data);
+                    })
+                    .catch((error) => {
+                    });
+            }
+        });
+
+        // busca el nombre del material
+        function buscarNombre(value){
+            $('#'+(value)+'').autocomplete({
+                source: function(request, response){
+
+                    axios.post('/bodega/buscar/material', {
+                        'nombre' : request.term
+                    })
+                        .then((res) => {
+                            response(res.data);
+                        })
+                        .catch((error) => {
+                        });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#btnAdd").on("click", function () {
+
+                var nFilas = $('#matriz >tbody >tr').length;
+                nFilas += 1;
+
+                //agrega las filas dinamicamente
+
+                var markup = "<tr id='"+(nFilas)+"'>"+
+
+                    "<td>"+
+                    "<p id='fila"+(nFilas)+"' class='form-control' style='max-width: 65px'>"+(nFilas)+"</p>"+
+                    "</td>"+
+
+                    "<td>"+
+                    "<input name='material[]' id='material"+(nFilas)+"' onkeydown='buscarNombre(this.id)' maxlength='300' class='form-control' type='text' value=''>"+
+                    "</td>"+
+
+                    "<td>"+
+                    "<input name='descripcion[]' maxlength='500' class='form-control' type='text' value=''>"+
+                    "</td>"+
+
+
+                    "<td>"+
+                    "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='number' step='1' value=''/>"+
+                    "</td>"+
+
+                    "<td>"+
+                    "<button type='button' class='btn btn-block btn-danger' onclick='borrarFila(this)'>Borrar</button>"+
+                    "</td>"+
+
+                    "</tr>";
+
+                $("tbody").append(markup);
+
+            });
+        });
+
+        // verificar que todos los datos a ingresar sean correctos
+        function verificar(){
+
+            // minimo se necesitara 1 registro para guardar
+            var nRegistro = $('#matriz >tbody >tr').length;
+            if (nRegistro <= 0){
+                alertaMensaje('warning','Registros Requerido','Se debe ingresar 1 registro como mínimo');
+                return;
+            }
+
+            var material = $("input[name='material[]']").map(function(){return $(this).val();}).get();
+            var descripcion = $("input[name='descripcion[]']").map(function(){return $(this).val();}).get();
+            var cantidad = $("input[name='cantidad[]']").map(function(){return $(this).val();}).get();
+
+            var reglaNumeroEntero = /^[0-9]\d*$/;
+
+            // verificar el campo Material
+            for(var a = 0; a < material.length; a++){
+
+                var datoMaterial = material[a];
+
+                if(datoMaterial === ''){
+                    alertaMensaje('warning','Campo Requerido','En la fila "'+(a+1)+'", se debe ingresar el nombre del Material');
+                    return;
+                }
+
+                if(datoMaterial.length > 300) {
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (a+1) + '", los caracteres máximo son 300 y ha ingresado: "'+datoMaterial.length+'"')
+                    return;
+                }
+            }
+
+            // verificar el campo Descripcion
+            for(var b = 0; b < descripcion.length; b++){
+
+                var datoDescripcion = descripcion[b];
+
+                if(datoDescripcion === ''){
+                    // nada
+                }else{
+                    if(datoDescripcion.length > 500) {
+                        alertaMensaje('warning','Inválido', 'En la fila "' + (b+1) + '", los caracteres máximo son 500 y ha ingresado: "'+datoDescripcion.length+'"')
+                        return;
+                    }
+                }
+            }
+
+            // verificar todos los campos de cantidad
+            for(var d = 0; d < cantidad.length; d++){
+
+                var datoCantidad = cantidad[d];
+
+                if(datoCantidad === ''){
+                    alertaMensaje('warning','Campo Requerido','En la fila "'+(d+1)+'", se debe ingresar la Cantidad');
+                    return;
+                }
+
+                if(!datoCantidad.match(reglaNumeroEntero)) {
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (d+1) + '", la Cantidad no es valida. \n \n Números validos del 1 en adelante')
+                    return;
+                }
+
+                if(datoCantidad <= 0){
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (d+1) + '", la Cantidad no es válida, debe ser mayor a 0')
+                    return;
+                }
+            }
+
+            guardarRegistro();
+        }
+
+        function guardarRegistro(){
+
+            openLoading();
+
+            // verificar los primeros campos select
+            var nota = document.getElementById('nota').value;
+            var persona = document.getElementById('persona').value;
+            var equipo = document.getElementById('select-equipo').value;
+
+            var material = $("input[name='material[]']").map(function(){return $(this).val();}).get();
+            var descripcion = $("input[name='descripcion[]']").map(function(){return $(this).val();}).get();
+            var cantidad = $("input[name='cantidad[]']").map(function(){return $(this).val();}).get();
+
+            let formData = new FormData();
+
+            formData.append('nota', nota);
+            formData.append('persona', persona);
+            formData.append('equipo', equipo);
+
+            for(var a = 0; a < material.length; a++){
+                formData.append('material[]', material[a]);
+                formData.append('descripcion[]', descripcion[a]);
+                formData.append('cantidad[]', cantidad[a]);
+            }
+
+            axios.post('/retiro/bodega/material', formData, {
+            })
+                .then((response) => {
+                    closeLoading();
+
+                    if(response.data.success == 1){
+                        // material no encontrado
+                        alertaMensaje('warning','No encontrado','En la fila "'+(response.data.fila)+'". El material con nombre: "'+(response.data.nombre)+'" \n No se encuentra Registrado');
+
+                    }
+                    else if(response.data.success == 2){
+                        // no hay unidades suficientes para el retiro
+                        alertaMensaje('warning','Sin Unidades','En la fila "'+(response.data.fila)+'". El material con nombre: "'+(response.data.nombre)+'" \n supera a las unidades disponible: ' +
+                            '"'+(response.data.total)+'". \n Verificar que este material a retirar no supere las unidades disponibles');
+                    }
+                    else if(response.data.success == 3){
+                        // registrado el retiro correctamente
+                        toastMensaje('success', 'Retirado correctamente');
+                        borrarTabla();
+                    }
+                    else{
+                        toastMensaje('error', 'Error al Retirar');
+                    }
+                })
+                .catch((error) => {
+                    closeLoading();
+                    toastMensaje('error', 'Error al Retirar');
+                });
+        }
+
+        // borrar todas las filas e ingresar una en blanco
+        function borrarTabla(){
+            $("#matriz tbody tr").remove();
+
+            var nFilas = $('#matriz >tbody >tr').length;
+            nFilas += 1;
+
+            //agrega las filas dinamicamente
+
+            var markup = "<tr id='"+(nFilas)+"'>"+
+
+                "<td>"+
+                "<p id='fila"+(nFilas)+"' class='form-control' style='max-width: 65px'>"+(nFilas)+"</p>"+
+                "</td>"+
+
+                "<td>"+
+                "<input name='material[]' maxlength='300' id='material"+(nFilas)+"' onkeydown='buscarNombre(this.id)' class='form-control' type='text' value=''>"+
+                "</td>"+
+
+                "<td>"+
+                "<input name='descripcion[]' maxlength='500' class='form-control' type='text' value=''>"+
+                "</td>"+
+
+
+                "<td>"+
+                "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='number' step='1' value=''/>"+
+                "</td>"+
+
+
+                "<td>"+
+                "<button type='button' class='btn btn-block btn-danger' onclick='borrarFila(this)'>Borrar</button>"+
+                "</td>"+
+
+                "</tr>";
+
+            $("tbody").append(markup);
+        }
+
+        function borrarFila(elemento){
+            var tabla = elemento.parentNode.parentNode;
+            tabla.parentNode.removeChild(tabla);
+            setearFila();
+        }
+
+        // cambiar # de fila cada vez que se borre una fila
+        function setearFila(){
+
+            var table = document.getElementById('matriz');
+            var conteo = 0;
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                conteo +=1;
+                var element = table.rows[r].cells[0].children[0];
+                document.getElementById(element.id).innerHTML = ""+conteo;
+            }
+        }
+
+
+    </script>
+
+
+
+@stop
