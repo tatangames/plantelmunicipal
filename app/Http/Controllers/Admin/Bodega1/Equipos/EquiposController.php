@@ -30,61 +30,22 @@ class EquiposController extends Controller
 
     public function nuevoEquipo(Request $request){
 
-        // validar imagen
-        if($request->hasFile('imagen')){
+        $regla2 = array(
+            'nombre' => 'required',
+        );
 
-            $regla2 = array(
-                'imagen' => 'required|image',
-            );
+        $validar2 = Validator::make($request->all(), $regla2);
 
-            $mensaje2 = array(
-                'imagen.required' => 'La imagen es requerida',
-                'imagen.image' => 'El archivo debe ser una imagen',
-            );
+        if($validar2->fails()){return ['success' => 0];}
 
-            $validar2 = Validator::make($request->all(), $regla2, $mensaje2 );
+        $equipo = new EquiposB1();
+        $equipo->nombre = $request->nombre;
+        $equipo->activo = 1;
 
-            if($validar2->fails()){return ['success' => 0];}
-
-            $cadena = Str::random(15);
-            $tiempo = microtime();
-            $union = $cadena.$tiempo;
-            $nombre = str_replace(' ', '_', $union);
-
-            $extension = '.'.$request->imagen->getClientOriginalExtension();
-            $nombreFoto = $nombre.strtolower($extension);
-            $avatar = $request->file('imagen');
-
-            // guardar imagen
-            $upload = Storage::disk('imagenes')->put($nombreFoto, \File::get($avatar));
-
-            if($upload){
-
-                $equipo = new EquiposB1();
-                $equipo->nombre = $request->nombre;
-                $equipo->imagen = $nombreFoto;
-                $equipo->activo = 1;
-
-                if($equipo->save()){
-                    return ['success' => 1]; // guardado
-                }else{
-                    return ['success' => 2]; // error al guardar
-                }
-            }else{
-                return ['success' => 2]; // error al guardar imagen
-            }
-
+        if($equipo->save()){
+            return ['success' => 1]; // guardado
         }else{
-            $equipo = new EquiposB1();
-            $equipo->nombre = $request->nombre;
-            $equipo->imagen = "";
-            $equipo->activo = 1;
-
-            if($equipo->save()){
-                return ['success' => 1]; // guardado
-            }else{
-                return ['success' => 2]; // error al guardar
-            }
+            return ['success' => 2];
         }
     }
 
@@ -131,65 +92,11 @@ class EquiposController extends Controller
             return ['success' => 0];
         }
 
-        // validar imagen
-        if($request->hasFile('imagen')){
+        EquiposB1::where('id', $request->id)
+            ->update(['nombre' => $request->nombre,
+                'activo' => $request->toggle
+            ]);
 
-            $regla2 = array(
-                'imagen' => 'required|image',
-            );
-
-            $mensaje2 = array(
-                'imagen.required' => 'La imagen es requerida',
-                'imagen.image' => 'El archivo debe ser una imagen',
-            );
-
-            $validar2 = Validator::make($request->all(), $regla2, $mensaje2 );
-
-            if ( $validar2->fails()){
-                return ['success' => 0];
-            }
-
-            $cadena = Str::random(15);
-            $tiempo = microtime();
-            $union = $cadena.$tiempo;
-            $nombre = str_replace(' ', '_', $union);
-
-            $extension = '.'.$request->imagen->getClientOriginalExtension();
-            $nombreFoto = $nombre.strtolower($extension);
-            $avatar = $request->file('imagen');
-
-            // guardar imagen
-            $upload = Storage::disk('imagenes')->put($nombreFoto, \File::get($avatar));
-
-            if($upload){
-
-                $imagenOld = EquiposB1::where('id', $request->id)->pluck('imagen')->first();
-
-                EquiposB1::where('id', $request->id)
-                    ->update(['nombre' => $request->nombre,
-                        'activo' => $request->toggle,
-                        'imagen' => $nombreFoto
-                    ]);
-
-                // borrar foto anterior
-                if(Storage::disk('imagenes')->exists($imagenOld)){
-                    Storage::disk('imagenes')->delete($imagenOld);
-                }
-
-                return ['success' => 1]; // actualizado
-            }else{
-                return ['success' => 2]; // error al guardar imagen
-            }
-
-        }else{
-
-            // solo actualizar datos
-            EquiposB1::where('id', $request->id)
-                ->update(['nombre' => $request->nombre,
-                    'activo' => $request->toggle
-                ]);
-
-            return ['success' => 1]; // actualizado
-        }
+        return ['success' => 1]; // actualizado
     }
 }
