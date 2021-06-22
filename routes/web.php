@@ -18,7 +18,8 @@ use App\Http\Controllers\Admin\Bodega1\Numeracion\Bodega1NumeracionController;
 use App\Http\Controllers\Admin\Administrador\Roles\RolesController;
 use App\Http\Controllers\Admin\Administrador\Permisos\PermisosController;
 use App\Http\Controllers\Admin\Bodega2\Equipos\Equipos2Controller;
-
+use App\Http\Controllers\Admin\Bodega2\Ingreso\IngresoB2Controller;
+use App\Http\Controllers\Admin\Bodega2\Reportes\ReporteBodega2Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +131,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::post('/admin1/informes/bodega1/ingresos-fechas', [RegistroBodega1Controller::class,'infoIngresosFechas']);
 
 
+    // ------------------------------------------------------------------------------------------------------------ //
+
 
     // *--- ADMINISTRADOR ---*
 
@@ -154,6 +157,28 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::post('/admin/permisos/extra-nuevo', [PermisosController::class, 'nuevoPermisoExtra']);
     Route::post('/admin/permisos/extra-borrar', [PermisosController::class, 'borrarPermisoGlobal']);
 
+
+    // ------------------------------------------------------------------------------------------------------------ //
+
+    // *--- SISTEMA DE MARLENE - REGISTRAR ORDENES DE COMPRA A CADA EQUIPO ---*
+
+    // --- EQUIPOS ---
+    Route::get('/admin2/equipos/listado', [Equipos2Controller::class,'indexEquipos'])->name('admin2.equipo.index');
+    Route::get('/admin2/equipos/listado-tabla', [Equipos2Controller::class,'tablaIndexEquipos']);
+    Route::post('/admin2/equipos/listado-nuevo', [Equipos2Controller::class,'nuevoEquipo']);
+    Route::post('/admin2/equipos/listado-info', [Equipos2Controller::class,'infoEquipo']);
+    Route::post('/admin2/equipos/listado-editar', [Equipos2Controller::class,'editarEquipo']);
+
+    // --- REGISTRO PARA EQUIPOS ---
+    Route::get('/admin2/bodega2/ingreso', [IngresoB2Controller::class,'indexBodega2Ingreso'])->name('registro.bodega2.index');
+    Route::post('/admin2/bodega2/registrar/material', [IngresoB2Controller::class,'registrarDetalleEquipo']);
+
+    // --- REPORTES BODEGA 2---
+    // vistas
+    Route::get('/admin2/reportes/ingreso/bodega2/index', [ReporteBodega2Controller::class,'indexReporteBodega2Ingreso'])->name('reporte.ingreso.bodega2');
+
+    // reportes pdf
+    Route::get('/admin2/reportes/bodega2/ingreso/{id}/{id2}', [ReporteBodega2Controller::class,'reporteBodega2Ingreso']);
 
 
 

@@ -239,15 +239,15 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('admin2.equipo.index') }}" target="frameprincipal" class="nav-link">
+                                <a href="{{ route('registro.bodega2.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Ingreso</p>
+                                    <p>Registrar</p>
                                 </a>
                             </li>
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" target="frameprincipal" class="nav-link">
+                                <a href="{{ route('admin2.equipo.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Equipos</p>
                                 </a>
@@ -255,7 +255,7 @@
                         </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" target="frameprincipal" class="nav-link">
+                                <a href="{{ route('reporte.ingreso.bodega2') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Reportes</p>
                                 </a>
