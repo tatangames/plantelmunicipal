@@ -53,11 +53,7 @@ class Equipos2Controller extends Controller
             'id' => 'required'
         );
 
-        $mensaje = array(
-            'id.required' => 'id unidad es requerido'
-        );
-
-        $validar = Validator::make($request->all(), $regla, $mensaje );
+        $validar = Validator::make($request->all(), $regla);
 
         if ($validar->fails()){return ['success' => 0];}
 
@@ -77,13 +73,7 @@ class Equipos2Controller extends Controller
             'nombre' => 'required'
         );
 
-        $mensaje = array(
-            'id.required' => 'id equipo es requerido',
-            'toggle.required' => 'toggle es requerido',
-            'nombre.required' => 'nombre es requerido'
-        );
-
-        $validar = Validator::make($request->all(), $regla, $mensaje );
+        $validar = Validator::make($request->all(), $regla );
 
         if ($validar->fails()){
             return ['success' => 0];

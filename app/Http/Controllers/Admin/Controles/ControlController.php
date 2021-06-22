@@ -36,6 +36,13 @@ class ControlController extends Controller
             $ruta = 'proveedor.index.listado';
         }
 
+        // Rol: Bodeguero2
+        // Sistema de marlene -> registrar cada compra a un equipo
+        // vista para Bodeguero 2 -> rederigir a vista bodega 2 ingreso
+        else if($user->hasPermissionTo('rol.ingreso.bodega2.index')) {
+            $ruta = 'registro.bodega2.index';
+        }
+
         else{
             // no tiene ningun permiso de vista, redirigir a pantalla sin permisos
             $ruta = 'no.permisos.index';

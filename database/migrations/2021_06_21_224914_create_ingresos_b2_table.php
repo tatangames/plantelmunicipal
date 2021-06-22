@@ -21,7 +21,7 @@ class CreateIngresosB2Table extends Migration
             $table->string('nota', 400)->nullable();
 
             $table->foreign('id_usuarios')->references('id')->on('usuarios');
-            $table->foreign('id_equipo2')->references('id')->on('equipos_b1');
+            $table->foreign('id_equipo2')->references('id')->on('equipos_b2');
 
         });
     }

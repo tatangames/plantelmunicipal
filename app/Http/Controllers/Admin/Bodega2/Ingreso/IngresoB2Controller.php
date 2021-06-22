@@ -30,7 +30,7 @@ class IngresoB2Controller extends Controller
         return view('backend.bodega2.ingreso.index', compact('equipo'));
     }
 
-    // ingreso de de registros para x equipo
+    // ingreso de registros para x equipo
     public function registrarDetalleEquipo(Request $request){
         $regla = array(
             'material' => 'required|array',
@@ -83,7 +83,7 @@ class IngresoB2Controller extends Controller
         }catch(\Throwable $e){
             DB::rollback();
 
-            return ['success' => 2];
+            return ['success' => 2, 'nota' => 'data ' . $e];
         }
     }
 }

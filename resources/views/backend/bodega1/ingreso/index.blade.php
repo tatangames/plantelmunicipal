@@ -91,8 +91,8 @@
                                                 <option value="{{$item->id}}">{{$item->nombre}}</option>
                                             @endforeach
                                         </select></td>
-                                    <td><input name="cantidad[]" class="form-control" type="number" step="1" style="max-width: 85px" ></td>
-                                    <td><input name="preciounitario[]" class="form-control" type="number" step=".01" style="max-width: 105px" ></td>
+                                    <td><input name="cantidad[]" class="form-control" type="text" maxlength="8" style="max-width: 85px" ></td>
+                                    <td><input name="preciounitario[]" class="form-control" type="text" maxlength="8"  style="max-width: 105px" ></td>
                                     <td><button type="button" class="btn btn-block btn-danger" id="btnBorrar" onclick="borrarFila(this)">Borrar</button></td>
                                 </tr>
 
@@ -118,8 +118,6 @@
         </div>
     </div>
 </section>
-
-
 
 @extends('backend.menus.footerjs')
 @section('archivos-js')
@@ -186,11 +184,11 @@
                     "</td>"+
 
                     "<td>"+
-                    "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='number' step='1' value=''/>"+
+                    "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='text' maxlength='8' value=''/>"+
                     "</td>"+
 
                     "<td>"+
-                    "<input name='preciounitario[]' class='form-control' type='number' step='.01' style='max-width: 105px' value=''/>"+
+                    "<input name='preciounitario[]' class='form-control' style='max-width: 105px' type='text' maxlength='8' value=''/>"+
                     "</td>"+
 
                     "<td>"+
@@ -272,6 +270,11 @@
                     alertaMensaje('warning','Inválido', 'En la fila "' + (c+1) + '", el número del Precio Unitario no es valido, debe ser mayor a 0')
                     return;
                 }
+
+                if(datoPrecioUnitario > 1000000){
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (c+1) + '", El Precio Unitario máximo es 1 millón')
+                    return;
+                }
             }
 
             // verificar todos los campos de cantidad
@@ -291,6 +294,11 @@
 
                 if(datoCantidad <= 0){
                     alertaMensaje('warning','Inválido', 'En la fila "' + (d+1) + '", la Cantidad no es válida, debe ser mayor a 0')
+                    return;
+                }
+
+                if(datoCantidad > 1000000){
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (d+1) + '", la Cantidad máxima es 1 millón')
                     return;
                 }
             }
@@ -398,11 +406,11 @@
                 "</td>"+
 
                 "<td>"+
-                "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='number' step='1' value=''/>"+
+                "<input name='cantidad[]' class='form-control' style='max-width: 85px' type='text' maxlength='8' value=''/>"+
                 "</td>"+
 
                 "<td>"+
-                "<input name='preciounitario[]' class='form-control' type='number' step='.01' style='max-width: 105px' value=''/>"+
+                "<input name='preciounitario[]' class='form-control' type='text' maxlength='8' style='max-width: 105px' value=''/>"+
                 "</td>"+
 
                 "<td>"+

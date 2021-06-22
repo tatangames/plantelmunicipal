@@ -303,6 +303,7 @@
             })
                 .then((response) => {
                     closeLoading();
+                    console.log(response);
                     if(response.data.success === 1){
                         // registrado correctamente
                         toastMensaje('success', 'Registrado');

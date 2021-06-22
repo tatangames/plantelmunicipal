@@ -38,6 +38,12 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'rol.ingreso.bodega1.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Bodega, vista ingresos'])->syncRoles($role2, $role3);
         Permission::create(['name' => 'rol.proveedor.lista.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Proveedores, vista lista de proveedores'])->syncRoles($role4);
         Permission::create(['name' => 'rol.roles.lista.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Roles, vista lista roles'])->syncRoles($role1);
+
+        // Sistema 2
+        Permission::create(['name' => 'rol.ingreso.bodega2.index', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role5);
+
+
+        // Lista de permisos
         Permission::create(['name' => 'grupo.bodega1.bodega', 'description' => 'Contenedor para el grupo llamado: Bodega'])->syncRoles($role2, $role3);
         Permission::create(['name' => 'vista.grupo.bodega1.bodega.ingreso', 'description' => 'Vista index para grupo Bodega - vista ingresos'])->syncRoles($role2, $role3);
         Permission::create(['name' => 'vista.grupo.bodega1.bodega.retiro', 'description' => 'Vista index para grupo Bodega - vista retiro'])->syncRoles($role2, $role3);
