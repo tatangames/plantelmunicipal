@@ -9,7 +9,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <link href="{{ asset('images/icono-sistema.png') }}" rel="icon">
-    <!--Fontawesome CDN-->
+    <!--Fontawesome CDN.-->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <!-- comprimido de librerias -->
     <link href="{{ asset('css/login/login.css') }}" type="text/css" rel="stylesheet" />
@@ -21,19 +21,27 @@
 
 </head>
 
-<body style="background-image: url({{ asset('images/fondo.jpg') }}  );">
+<style>
+
+    body {
+        background-image: url({{ asset('images/fondo-login.jpg') }});
+    }
+
+</style>
+
+<body>
 <div class="container">
     <div class="d-flex justify-content-center h-100">
 
         <div class="card " style="height: 450px;">
             <div class="card-header text-center">
 
-                <div class="row text-center d-flex" style="position: relative; top: -70px;">
-                    <div class="col-md-12">
+                <div class="row text-center d-flex" style="position: relative; top: -10px;">
+                    <div class="col-md-12" style="margin-top: 5px">
                         <img src="{{ asset('images/logoalcaldia.png') }}" width="100" height="130px" srcset="">
                     </div>
                 </div>
-                <h3 style="position: relative; top: -10px;">PLANTEL MUNICIPAL
+                <h3 style="position: relative; top: -5px;">PLANTEL MUNICIPAL
                     ALCADÍA DE METAPÁN</h3>
             </div>
             <div class="card-body" >
