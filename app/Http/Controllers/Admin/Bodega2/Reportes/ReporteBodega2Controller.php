@@ -10,17 +10,16 @@ use Illuminate\Support\Facades\DB;
 class ReporteBodega2Controller extends Controller
 {
     public function __construct(){
-        /*$this->middleware('auth');
-        $this->middleware('can:vista.grupo.bodega1.reportes.reporte-ingreso', ['only' => ['indexReporteBodegaIngreso',
-            'reporteBodegaIngreso']]);
-        $this->middleware('can:vista.grupo.bodega1.reportes.reporte-retiro', ['only' => ['indexReporteBodegaRetiro',
-            'reporteBodegaRetiro']]);*/
+        $this->middleware('auth');
+        // aplica a todos los metodos
+        $this->middleware('can:grupo.bodega2.registros');
     }
 
     public function indexReporteBodega2Ingreso(){
         return view('backend.bodega2.reportes.ingreso.index');
     }
 
+    // generar reporte de los ingresos a los equipos de fecha por fecha
     public function reporteBodega2Ingreso($fecha1, $fecha2){
 
         $date1 = Carbon::parse($fecha1)->format('Y-m-d');

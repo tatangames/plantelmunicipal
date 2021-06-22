@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Validator;
 class IngresoB2Controller extends Controller
 {
     public function __construct(){
-        //$this->middleware('auth');
+        $this->middleware('auth');
         // aplica a todos los metodos
-        //$this->middleware('can:vista.grupo.bodega1.bodega.ingreso');
+        $this->middleware('can:grupo.bodega2.registros');
     }
 
     public function indexBodega2Ingreso(){

@@ -29,6 +29,9 @@ class RolesSeeder extends Seeder
         // para ver unicamente reportes e informes de bodega1
         $role4 = Role::create(['name' => 'Info-Bodeguero1']);
 
+        // bodeguero2 con los permisos necesarios
+        $role5 = Role::create(['name' => 'Bodeguero2-Admin']);
+
 
         // --- CREAR PERMISOS ---
 
@@ -56,6 +59,12 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'grupo.admin.roles-y-permisos', 'description' => 'Contenedor para el grupo llamado: Roles y Permisos'])->syncRoles($role1);
         Permission::create(['name' => 'vista.grupo.bodega1.equipos.lista-equipos', 'description' => 'Vista index para grupo Equipos - vista lista de equipos'])->syncRoles($role2);
         Permission::create(['name' => 'boton.grupo.bodega1.equipos.registrar-material.btn-agregar', 'description' => 'Mostrar botón para agregar nuevo registro de material'])->syncRoles($role2);
+
+        // --- SISTEMA 2 ---
+        // Sistema para Marlene - Ingresar registros de compras para cada equipo
+        Permission::create(['name' => 'grupo.bodega2.registros', 'description' => 'Bodega 2 - Contenedor para el grupo llamado Registros'])->syncRoles($role5);
+
+
 
 
         // para agregarselo al permiso creado y asiganarlo a 1 unicamente rol

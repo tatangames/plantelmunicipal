@@ -183,6 +183,13 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
 
 
 
+
+
+
+
+
+    // ------------------------------------------------------------------------------------------------------------ //
+
     // --- SIN PERMISOS VISTA 403 ---
     Route::get('/sin-permisos', [ControlController::class,'indexSinPermiso'])->name('no.permisos.index');
 

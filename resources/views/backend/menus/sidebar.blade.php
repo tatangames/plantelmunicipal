@@ -229,6 +229,7 @@
                     </li>
                 @endcan
 
+                @can('grupo.bodega2.registros')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-edit"></i>
@@ -262,7 +263,7 @@
                             </li>
                         </ul>
                     </li>
-
+                @endcan
 
             </ul>
         </nav>

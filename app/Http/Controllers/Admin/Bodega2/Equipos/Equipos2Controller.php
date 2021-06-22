@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Validator;
 class Equipos2Controller extends Controller
 {
     public function __construct(){
-        //$this->middleware('auth');
+        $this->middleware('auth');
         // aplica a todos los metodos
-        //$this->middleware('can:vista.grupo.bodega1.equipos.lista-equipos');
+        $this->middleware('can:grupo.bodega2.registros');
     }
 
     public function indexEquipos(){
