@@ -179,6 +179,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
 
     // reportes pdf
     Route::get('/admin2/reportes/bodega2/ingreso/{id}/{id2}', [ReporteBodega2Controller::class,'reporteBodega2Ingreso']);
+    Route::get('/admin2/reportes2/bodega2/ingreso/{id}/{id2}/{id3}', [ReporteBodega2Controller::class,'reporteBodega2IngresoEquipo']);
 
 
 
