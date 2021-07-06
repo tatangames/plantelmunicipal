@@ -142,7 +142,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/bodega1/numeracion/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/bodega1/numeracion/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -177,7 +177,7 @@
             formData.append('nombre', nombre);
             formData.append('descripcion', descripcion);
 
-            axios.post('/admin1/bodega1/numeracion/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/bodega1/numeracion/listado-nuevo', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){
@@ -198,7 +198,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/bodega1/numeracion/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/bodega1/numeracion/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -206,7 +206,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/bodega1/numeracion/listado-info',{
+            axios.post(url+'/sistema1/bodega1/numeracion/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -259,7 +259,7 @@
             formData.append('nombre', nombre);
             formData.append('descripcion', descripcion);
 
-            axios.post('/admin1/bodega1/numeracion/listado-editar', formData, {
+            axios.post(url+'/sistema1/bodega1/numeracion/listado-editar', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){

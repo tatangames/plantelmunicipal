@@ -129,7 +129,7 @@
         $(document).ready(function(){
 
             // se recibe el ID del Rol
-            var ruta = "{{ url('/admin/roles/permisos-todos/tabla') }}";
+            var ruta = "{{ url('principal/roles/permisos-todos/tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -169,7 +169,7 @@
             formData.append('nombre', nombre);
             formData.append('descripcion', descripcion);
 
-            axios.post('/admin/permisos/extra-nuevo', formData, {
+            axios.post(url+'/principal/permisos/extra-nuevo', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -208,7 +208,7 @@
             var formData = new FormData();
             formData.append('idpermiso', idpermiso);
 
-            axios.post('/admin/permisos/extra-borrar', formData, {
+            axios.post(url+'/principal/permisos/extra-borrar', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -228,7 +228,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin/roles/permisos-todos/tabla') }}";
+            var ruta = "{{ url('principal/roles/permisos-todos/tabla') }}";
             $('#tablaDatatable').load(ruta);
         }
 

@@ -1,5 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
         <img src="{{ asset('images/logoalcaldia.png') }}" alt="Logo" class="brand-image img-circle elevation-3" >
         <span class="brand-text font-weight-light">Panel Web</span>
     </a>
@@ -86,72 +86,73 @@
                             </p>
                         </a>
 
-                        @can('vista.grupo.bodega1.equipos.registrar-material')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('registro.bodega1.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lista Materiales</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                        <ul class="nav nav-treeview">
+                            @can('vista.grupo.bodega1.equipos.registrar-material')
 
-                        @can('vista.grupo.bodega1.equipos.bodega-numeracion')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('numeracion.bodega1.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Bodega Numeración</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                                    <li class="nav-item">
+                                        <a href="{{ route('registro.bodega1.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Lista Materiales</p>
+                                        </a>
+                                    </li>
 
-                        @can('vista.grupo.bodega1.equipos.lista-unidad-medida')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('unidad.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lista Unidad de Medida</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                            @endcan
 
-                        @can('vista.grupo.bodega1.equipos.lista-de-tipos')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('tipo.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lista de Tipos</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                            @can('vista.grupo.bodega1.equipos.bodega-numeracion')
 
-                        @can('vista.grupo.bodega1.equipos.lista-equipos')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('equipo.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lista de Equipos</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                                    <li class="nav-item">
+                                        <a href="{{ route('numeracion.bodega1.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Bodega Numeración</p>
+                                        </a>
+                                    </li>
 
-                        @can('vista.grupo.bodega1.equipos.lista-de-personas')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('persona.index') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lista de Personas</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
+                            @endcan
 
+                            @can('vista.grupo.bodega1.equipos.lista-unidad-medida')
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('unidad.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Lista Unidad de Medida</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+
+                            @can('vista.grupo.bodega1.equipos.lista-de-tipos')
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('tipo.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Lista de Tipos</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+
+                            @can('vista.grupo.bodega1.equipos.lista-equipos')
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('equipo.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Lista de Equipos</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+
+                            @can('vista.grupo.bodega1.equipos.lista-de-personas')
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('persona.index') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Lista de Personas</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+                        </ul>
                     </li>
                 @endcan
 
@@ -164,39 +165,41 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                        @can('vista.grupo.bodega1.reportes.reporte-ingreso')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('reporte.ingreso.bodega1') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Reporte Ingreso</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
 
-                        @can('vista.grupo.bodega1.reportes.reporte-retiro')
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('reporte.retiro.bodega1') }}" target="frameprincipal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Reporte Retiro</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        @endcan
-
-                        @can('vista.grupo.bodega1.reportes.informe-de-bodega')
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('informe.bodega1') }}" target="frameprincipal" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Informe de Bodega</p>
-                                </a>
-                            </li>
-                        </ul>
-                        @endcan
+                            @can('vista.grupo.bodega1.reportes.reporte-ingreso')
 
+                                    <li class="nav-item">
+                                        <a href="{{ route('reporte.ingreso.bodega1') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Reporte Ingreso</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+
+                            @can('vista.grupo.bodega1.reportes.reporte-retiro')
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('reporte.retiro.bodega1') }}" target="frameprincipal" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Reporte Retiro</p>
+                                        </a>
+                                    </li>
+
+                            @endcan
+
+                            @can('vista.grupo.bodega1.reportes.informe-de-bodega')
+
+                                <li class="nav-item">
+                                    <a href="{{ route('informe.bodega1') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Informe de Bodega</p>
+                                    </a>
+                                </li>
+
+                            @endcan
+                        </ul>
                     </li>
                 @endcan
 
@@ -211,20 +214,22 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a href="{{ route('admin.roles.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Permisos y Roles</p>
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
+
+
                             <li class="nav-item">
                                 <a href="{{ route('admin.permisos.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Usuarios</p>
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                 @endcan
@@ -239,43 +244,153 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a href="{{ route('registro.bodega2.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Registrar</p>
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a href="{{ route('admin2.equipo.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Equipos</p>
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
+
                             <li class="nav-item">
                                 <a href="{{ route('reporte.ingreso.bodega2') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Reportes</p>
                                 </a>
                             </li>
+
                         </ul>
                     </li>
                 @endcan
 
+
+                @can('grupo.bodega3.ingreso')
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-edit"></i>
+                        <p>
+                            Ingreso
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        @can('vista.grupo.bodega3.ingreso.nuevo-ingreso')
+                        <li class="nav-item">
+                            <a href="{{ route('registro.bodega3.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Nuevo Ingreso</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('vista.grupo.bodega3.ingreso.lista-de-proyectos')
+                        <li class="nav-item">
+                            <a href="{{ route('registro.ingreso.editar.bodega3.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lista de Proyectos</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                    </ul>
+                </li>
+                @endcan
+
+                @can('grupo.bodega3.proyectos')
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-edit"></i>
+                        <p>
+                            Proyectos
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        @can('vista.grupo.bodega3.proyectos.lista-de-proyectos')
+                        <li class="nav-item">
+                            <a href="{{ route('verificacion.bodega3.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lista de Proyectos</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                    </ul>
+                </li>
+                @endcan
+
+                @can('grupo.bodega3.extras')
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-edit"></i>
+                        <p>
+                            Extras
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        @can('vista.grupo.bodega3.extras.encargados')
+                        <li class="nav-item">
+                            <a href="{{ route('admin3.encargados.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Encargados</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('vista.grupo.bodega3.extras.servicios')
+                        <li class="nav-item">
+                            <a href="{{ route('admin3.servicios.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Proyectos</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('vista.grupo.bodega3.extras.cargos')
+                        <li class="nav-item">
+                            <a href="{{ route('admin3.cargos.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cargos</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('vista.grupo.bodega3.extras.tipo-retiro')
+                            <li class="nav-item">
+                                <a href="{{ route('admin3.tipo.retiro.index') }}" target="frameprincipal" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tipo Retiros</p>
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('vista.grupo.bodega3.extras.bodega-ubicacion')
+                        <li class="nav-item">
+                            <a href="{{ route('admin3.bodega.ubicacion.index') }}" target="frameprincipal" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bodega Ubicación</p>
+                            </a>
+                        </li>
+                        @endcan
+
+                    </ul>
+                </li>
+                @endcan
+
+
             </ul>
         </nav>
 
-
-
-
     </div>
 </aside>
-
-
-
-
-
-

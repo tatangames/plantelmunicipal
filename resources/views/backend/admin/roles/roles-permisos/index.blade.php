@@ -133,7 +133,7 @@
 
             // se recibe el ID del Rol
             var id = {{ $id }};
-            var ruta = "{{ url('/admin/roles/permisos/tabla') }}/"+id;
+            var ruta = "{{ url('principal/roles/permisos/tabla') }}/"+id;
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -157,7 +157,7 @@
             formData.append('idpermiso', idpermiso);
             formData.append('idrol', idrol);
 
-            axios.post('/admin/roles/permiso/borrar', formData, {
+            axios.post(url+'/principal/roles/permiso/borrar', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -189,7 +189,7 @@
             formData.append('idpermiso', idpermiso);
             formData.append('idrol', idrol);
 
-            axios.post('/admin/roles/permiso/agregar', formData, {
+            axios.post(url+'/principal/roles/permiso/agregar', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -211,7 +211,7 @@
 
         function recargar(){
             var id = {{ $id }};
-            var ruta = "{{ url('/admin/roles/permisos/tabla') }}/"+id;
+            var ruta = "{{ url('principal/roles/permisos/tabla') }}/"+id;
             $('#tablaDatatable').load(ruta);
         }
 

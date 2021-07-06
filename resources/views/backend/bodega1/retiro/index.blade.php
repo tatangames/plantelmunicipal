@@ -117,7 +117,7 @@
         $('#persona').autocomplete({
             source: function(request, response){
 
-                axios.post('/admin1/retiro/bodega/buscar', {
+                axios.post(url+'/sistema1/retiro/bodega/buscar', {
                     'nombre' : request.term
                 })
                     .then((res) => {
@@ -133,7 +133,7 @@
             $('#'+(value)+'').autocomplete({
                 source: function(request, response){
 
-                    axios.post('/admin1/bodega/buscar/material', {
+                    axios.post(url+'/sistema1/bodega/buscar/material', {
                         'nombre' : request.term
                     })
                         .then((res) => {
@@ -183,8 +183,27 @@
             });
         });
 
-        // verificar que todos los datos a ingresar sean correctos
         function verificar(){
+
+            Swal.fire({
+                title: 'Guardar Retiro?',
+                text: "",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    verificarRes();
+                }
+            })
+
+        }
+
+        // verificar que todos los datos a ingresar sean correctos
+        function verificarRes(){
 
             // minimo se necesitara 1 registro para guardar
             var nRegistro = $('#matriz >tbody >tr').length;
@@ -279,7 +298,7 @@
                 formData.append('cantidad[]', cantidad[a]);
             }
 
-            axios.post('/admin1/retiro/bodega/material', formData, {
+            axios.post(url+'/sistema1/retiro/bodega/material', formData, {
             })
                 .then((response) => {
                     closeLoading();

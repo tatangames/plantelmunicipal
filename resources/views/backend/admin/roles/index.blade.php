@@ -123,7 +123,7 @@
     <!-- incluir tabla -->
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin/roles/tabla') }}";
+            var ruta = "{{ URL::to('principal/roles/tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -131,12 +131,12 @@
     <script>
 
         function verInformacion(id){
-            window.location.href="{{ url('/admin/roles/lista/permisos') }}/"+id;
+            window.location.href="{{ url('principal/roles/lista/permisos') }}/"+id;
         }
 
         // ver todos los permisos que existen
         function vistaPermisos(){
-            window.location.href="{{ url('/admin/roles/permisos/lista') }}";
+            window.location.href="{{ url('principal/roles/permisos/lista') }}";
         }
 
         function modalAgregar(){
@@ -159,7 +159,7 @@
             var formData = new FormData();
             formData.append('idrol', idrol);
 
-            axios.post('/admin/roles/borrar-global', formData, {
+            axios.post(url+'/principal/roles/borrar-global', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -195,7 +195,7 @@
             var formData = new FormData();
             formData.append('nombre', nombre);
 
-            axios.post('/admin/permisos/nuevo-rol', formData, {
+            axios.post(url+'/principal/permisos/nuevo-rol', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -218,7 +218,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin/roles/tabla') }}";
+            var ruta = "{{ url('principal/roles/tabla') }}";
             $('#tablaDatatable').load(ruta);
         }
 

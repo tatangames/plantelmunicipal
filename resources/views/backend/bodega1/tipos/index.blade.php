@@ -154,7 +154,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/tipos/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/tipos/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -189,7 +189,7 @@
             formData.append('nombre', nombre);
             formData.append('descripcion', descripcion);
 
-            axios.post('/admin1/tipos/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/tipos/listado-nuevo', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){
@@ -206,7 +206,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/tipos/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/tipos/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -214,7 +214,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/tipos/listado-info',{
+            axios.post(url+'/sistema1/tipos/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -271,7 +271,7 @@
             formData.append('descripcion', descripcion);
             formData.append('toggle', toggleEditar);
 
-            axios.post('/admin1/tipos/listado-editar', formData, {
+            axios.post(url+'/sistema1/tipos/listado-editar', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){

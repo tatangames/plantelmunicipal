@@ -17,30 +17,51 @@ class RolesSeeder extends Seeder
 
         // --- CREAR ROLES ---
 
+        // SISTEMA 1
+
         // administrador con todos los permisos
         $role1 = Role::create(['name' => 'Super-Admin']);
 
         // bodeguero1 con los permisos necesarios
-        $role2 = Role::create(['name' => 'Bodeguero1-Admin']);
+        $role2 = Role::create(['name' => 'Sistema1-Admin1']);
 
         // auxiliar de bodeguero1, segun permisos necesarios
-        $role3 = Role::create(['name' => 'Bodeguero1-Auxiliar']);
+        $role3 = Role::create(['name' => 'Sistema1-Admin2']);
 
         // para ver unicamente reportes e informes de bodega1
-        $role4 = Role::create(['name' => 'Info-Bodeguero1']);
+        $role4 = Role::create(['name' => 'Sistema1-Admin3']);
+
+        // SISTEMA 2
 
         // bodeguero2 con los permisos necesarios
-        $role5 = Role::create(['name' => 'Bodeguero2-Admin']);
+        $role5 = Role::create(['name' => 'Sistema2-Admin1']);
+
+        // SISTEMA 3
+
+        // ingresa los materiales a bodega
+        $role6 = Role::create(['name' => 'Sistema3-Admin1']);
+
+        // verifica la cantidades, y hace los retiros de bodega
+        $role7 = Role::create(['name' => 'Sistema3-Admin2']);
+
 
 
         // --- CREAR PERMISOS ---
 
-        Permission::create(['name' => 'rol.ingreso.bodega1.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Bodega, vista ingresos'])->syncRoles($role2, $role3);
-        Permission::create(['name' => 'rol.proveedor.lista.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Proveedores, vista lista de proveedores'])->syncRoles($role4);
-        Permission::create(['name' => 'rol.roles.lista.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Roles, vista lista roles'])->syncRoles($role1);
+        // ADMIN
+        Permission::create(['name' => 'url.admin.rolespermiso.permiso-y-roles', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Roles, vista lista roles'])->syncRoles($role1);
 
-        // Sistema 2
-        Permission::create(['name' => 'rol.ingreso.bodega2.index', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role5);
+        // SISTEMA 1
+
+        Permission::create(['name' => 'url.bodega1.admin1.ingreso.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Bodega, vista ingresos'])->syncRoles($role2, $role3);
+        Permission::create(['name' => 'url.bodega1.admin2.proveedor.lista.index', 'description' => 'Cuando inicia el sistema, se redirigirá la vista al grupo Proveedores, vista lista de proveedores'])->syncRoles($role4);
+
+        // SISTEMA 2
+        Permission::create(['name' => 'url.bodega2.admin1.ingreso.nuevo-ingreso', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role5);
+
+        // SISTEMA 3
+        Permission::create(['name' => 'url.bodega3.admin1.ingreso.nuevo-ingreso', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role6);
+        Permission::create(['name' => 'url.bodega3.admin2.proyecto.lista-de-proyectos', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role7);
 
 
         // Lista de permisos
@@ -70,6 +91,35 @@ class RolesSeeder extends Seeder
         // Sistema para Marlene - Ingresar registros de compras para cada equipo
         Permission::create(['name' => 'grupo.bodega2.registros', 'description' => 'Bodega 2 - Contenedor para el grupo llamado Registros'])->syncRoles($role5);
 
+
+        // --- SISTEMA 3 ---
+        Permission::create(['name' => 'grupo.bodega3.ingreso', 'description' => 'Contenedor para el grupo llamado: Ingreso'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.ingreso.nuevo-ingreso', 'description' => 'Vista index para grupo Ingreso - vista nuevo ingreso'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.ingreso.lista-de-proyectos', 'description' => 'Vista index para grupo Ingreso - vista lista de proyectos'])->syncRoles($role6);
+
+        Permission::create(['name' => 'grupo.bodega3.extras', 'description' => 'Contenedor para el grupo llamado: Extras'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.extras.encargados', 'description' => 'Vista index para grupo Proyectos - vista encargados'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.extras.servicios', 'description' => 'Vista index para grupo Proyectos - vista servicios'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.extras.cargos', 'description' => 'Vista index para grupo Proyectos - vista cargos'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.extras.tipo-retiro', 'description' => 'Vista index para grupo Proyectos - vista tipos de retiro'])->syncRoles($role6);
+        Permission::create(['name' => 'vista.grupo.bodega3.extras.bodega-ubicacion', 'description' => 'Vista index para grupo Proyectos - vista bodega ubicacion'])->syncRoles($role6);
+
+        Permission::create(['name' => 'grupo.bodega3.proyectos', 'description' => 'Contenedor para el grupo llamado: Proyectos'])->syncRoles($role7);
+        Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos'])->syncRoles($role7);
+
+        // - BOTONES -
+
+        // boton para verificar material
+        Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.verificar-material', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos, boton verificar material'])->syncRoles($role7);
+
+        // boton para editar material
+        Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.editar-verificar-material', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos, boton editar verificar material'])->syncRoles($role7);
+
+        // boton para retirar material
+        Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.retirar-material', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos, boton retirar material'])->syncRoles($role7);
+
+        // boton para editar retiro de material
+        Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.editar-retirar-material', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos, boton editar retirar material'])->syncRoles($role7);
 
 
 

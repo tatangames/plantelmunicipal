@@ -229,7 +229,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/proveedor/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/proveedor/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -241,7 +241,7 @@
             openLoading();
             document.getElementById("formulario-info").reset();
 
-            axios.post('/admin1/proveedor/listado-info',{
+            axios.post(url+'/sistema1/proveedor/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -281,7 +281,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/proveedor/listado-info',{
+            axios.post(url+'/sistema1/proveedor/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -424,7 +424,7 @@
             formData.append('observaciones', observaciones);
             formData.append('activo', toggleEditar);
 
-            axios.post('/admin1/proveedor/listado-editar', formData, {
+            axios.post(url+'/sistema1/proveedor/listado-editar', formData, {
             })
                 .then((response) => {
                     closeLoading();

@@ -181,7 +181,7 @@
     <!-- incluir tabla -->
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('admin/permisos/tabla') }}";
+            var ruta = "{{ URL::to('/principal/permisos/tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -251,7 +251,7 @@
             formData.append('password', password);
             formData.append('rol', idrol);
 
-            axios.post('/admin/permisos/nuevo-usuario', formData, {
+            axios.post(url+'/principal/permisos/nuevo-usuario', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -278,7 +278,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin/permisos/info-usuario',{
+            axios.post(url+'/principal/permisos/info-usuario',{
                 'id': id
             })
                 .then((response) => {
@@ -370,17 +370,15 @@
             formData.append('toggle', toggle);
             formData.append('rol', idrol);
 
-            axios.post('/admin/permisos/editar-usuario', formData, {
+            axios.post(url+'/principal/permisos/editar-usuario', formData, {
             })
                 .then((response) => {
                     closeLoading()
 
-                    console.log(response);
-
-                    if (response.data.success == 1) {
+                    if (response.data.success === 1) {
                         toastMensaje('error', 'El Usuario ya existe');
                     }
-                    else if(response.data.success == 2){
+                    else if(response.data.success === 2){
                         toastr.success('Actualizado');
                         $('#modalEditar').modal('hide');
                         recargar();
@@ -396,7 +394,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin/permisos/tabla') }}";
+            var ruta = "{{ url('/principal/permisos/tabla') }}";
             $('#tablaDatatable').load(ruta);
         }
 

@@ -132,7 +132,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/persona/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/persona/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -160,7 +160,7 @@
             let formData = new FormData();
             formData.append('nombre', nombre);
 
-            axios.post('/admin1/persona/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/persona/listado-nuevo', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){
@@ -177,7 +177,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/persona/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/persona/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -185,7 +185,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/persona/listado-info',{
+            axios.post(url+'/sistema1/persona/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -225,7 +225,7 @@
             formData.append('id', id);
             formData.append('nombre', nombre);
 
-            axios.post('/admin1/persona/listado-editar', formData, {
+            axios.post(url+'/sistema1/persona/listado-editar', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){

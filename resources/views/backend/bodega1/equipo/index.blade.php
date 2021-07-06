@@ -145,7 +145,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/equipos/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/equipos/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -174,7 +174,7 @@
             var formData = new FormData();
             formData.append('nombre', nombre);
 
-            axios.post('/admin1/equipos/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/equipos/listado-nuevo', formData, {
             })
                 .then((response) => {
                     closeLoading()
@@ -191,7 +191,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/equipos/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/equipos/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -199,7 +199,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/equipos/listado-info',{
+            axios.post(url+'/sistema1/equipos/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -250,7 +250,7 @@
             formData.append('nombre', nombre);
             formData.append('toggle', toggleEditar);
 
-            axios.post('/admin1/equipos/listado-editar', formData, {
+            axios.post(url+'/sistema1/equipos/listado-editar', formData, {
             })
                 .then((response) => {
                     closeLoading();

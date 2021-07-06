@@ -163,7 +163,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/unidad/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/unidad/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -216,7 +216,7 @@
             formData.append('magnitud', magnitud);
             formData.append('simbolo', simbolo);
 
-            axios.post('/admin1/unidad/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/unidad/listado-nuevo', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){
@@ -233,7 +233,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/unidad/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/unidad/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -241,7 +241,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/unidad/listado-info',{
+            axios.post(url+'/sistema1/unidad/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -316,7 +316,7 @@
             formData.append('simbolo', simbolo);
             formData.append('toggle', toggleEditar);
 
-            axios.post('/admin1/unidad/listado-editar', formData, {
+            axios.post(url+'/sistema1/unidad/listado-editar', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){

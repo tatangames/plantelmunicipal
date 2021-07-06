@@ -1,5 +1,6 @@
 <html>
 <head>
+    <title>Reporte</title>
     <style>
         body{
             font-family: Arial;

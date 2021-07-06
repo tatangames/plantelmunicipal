@@ -160,7 +160,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var ruta = "{{ URL::to('/admin1/materiales/listado-tabla') }}";
+            var ruta = "{{ URL::to('sistema1/materiales/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
     </script>
@@ -197,7 +197,7 @@
             formData.append('codigo', codigo);
             formData.append('bodega', bodega);
 
-            axios.post('/admin1/materiales/listado-nuevo', formData, {
+            axios.post(url+'/sistema1/materiales/listado-nuevo', formData, {
             })
                 .then((response) => {
                     if(response.data.success === 1){
@@ -221,7 +221,7 @@
         }
 
         function recargar(){
-            var ruta = "{{ url('/admin1/materiales/listado-tabla') }}/";
+            var ruta = "{{ url('sistema1/materiales/listado-tabla') }}/";
             $('#tablaDatatable').load(ruta);
         }
 
@@ -229,7 +229,7 @@
             openLoading();
             document.getElementById("formulario-editar").reset();
 
-            axios.post('/admin1/materiales/listado-info',{
+            axios.post(url+'/sistema1/materiales/listado-info',{
                 'id': id
             })
                 .then((response) => {
@@ -288,7 +288,7 @@
             formData.append('codigo', codigo);
             formData.append('bodega', bodega);
 
-            axios.post('/admin1/materiales/listado-editar', formData, {
+            axios.post(url+'/sistema1/materiales/listado-editar', formData, {
             })
                 .then((response) => {
 
@@ -314,12 +314,12 @@
 
         // ver lista de ingresos de un material por id
         function historialIngreso(id){
-            window.location.href="{{ url('/admin1/materiales/histo/ingreso') }}/"+id;
+            window.location.href="{{ url('sistema1/materiales/histo/ingreso') }}/"+id;
         }
 
         // ver lista de retiros de un material por id
         function historialRetiro(id){
-            window.location.href="{{ url('/admin1/materiales/histo/retiro') }}/"+id;
+            window.location.href="{{ url('sistema1/materiales/histo/retiro') }}/"+id;
         }
 
 

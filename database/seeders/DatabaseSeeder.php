@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EstadoProyectoB3;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CondicionSeeder::class);
         $this->call(TiposSeeder::class);
         $this->call(UnidadMedidaSeeder::class);
+        $this->call(EstadoProyectoSeeder::class);
     }
 }

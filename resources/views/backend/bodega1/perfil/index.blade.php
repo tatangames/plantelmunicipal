@@ -109,12 +109,10 @@
             formData.append('passactual', passwordActual);
             formData.append('passnueva', passwordNueva);
 
-            axios.post('/admin1/editar-perfil/actualizar', formData, {
+            axios.post(url+'/sistema1/editar-perfil/actualizar', formData, {
             })
                 .then((response) => {
                     closeLoading()
-
-                    console.log(response);
 
                     if (response.data.success == 1) {
                         toastr.success('Actualizado');

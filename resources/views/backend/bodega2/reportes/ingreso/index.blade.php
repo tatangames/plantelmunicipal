@@ -102,7 +102,7 @@
                 return;
             }
 
-            window.open("{{ URL::to('/admin2/reportes/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta);
+            window.open("{{ URL::to('sistema2/reportes/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta);
         }
 
         function verificar2(){
@@ -121,7 +121,7 @@
                 return;
             }
 
-            window.open("{{ URL::to('/admin2/reportes2/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta + "/" + equipo);
+            window.open("{{ URL::to('sistema2/reportes2/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta + "/" + equipo);
         }
 
 

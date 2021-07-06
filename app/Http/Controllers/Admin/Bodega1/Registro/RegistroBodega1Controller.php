@@ -243,22 +243,22 @@ class RegistroBodega1Controller extends Controller
 
     public function informesBodega1(){
 
-        // total invertido en bodega
-        // sumar todos los ingresos
+        // cantidad de los ingresos detalle
         $ingresoSuma = IngresosDetalleB1::get();
-        $sumaIngreso = collect($ingresoSuma)->sum('preciounitario');
+        $sumaIngreso = collect($ingresoSuma)->sum('cantidad');
+        $sumaPrecio = collect($ingresoSuma)->sum('preciounitario');
 
-        // obtener total de materiales en bodega disponible
-        $cantidad = collect($ingresoSuma)->sum('cantidad');
+        // cantidad de los retiros detalle
 
-        $retiros = RetiroBodegaDetalleB1::get();
-        // obtener la cantidad de retiros
-        $resta = collect($retiros)->sum('cantidad');
+        $retiro = RetiroBodegaDetalleB1::get();
+        $sumaRetiro = collect($retiro)->sum('cantidad');
 
-        // restar cantidad de ingresos - cantidad de retiros
-        $totalActual = $cantidad - $resta;
+        $totalActual = $sumaIngreso - $sumaRetiro;
 
-        return view('backend.bodega1.informes.index', compact('sumaIngreso', 'totalActual'));
+        $sumaIngreso = 15;
+
+
+        return view('backend.bodega1.informes.index', compact('sumaPrecio', 'totalActual'));
     }
 
 

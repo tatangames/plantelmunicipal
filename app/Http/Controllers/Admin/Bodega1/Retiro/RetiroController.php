@@ -52,15 +52,8 @@ class RetiroController extends Controller
             'cantidad' => 'required|array',
         );
 
-        $mensaje = array(
-            'equipo.required' => 'Equipo es requerido',
-            'material.required' => 'Nombre Material es requerido',
-            'material.array' => 'Nombre Material Array es requerido',
-            'cantidad.required' => 'Cantidad es requerido',
-            'cantidad.array' => 'Cantidad Array es requerido',
-        );
 
-        $validar = Validator::make($request->all(), $regla, $mensaje );
+        $validar = Validator::make($request->all(), $regla );
 
         if ($validar->fails()){
             return ['success' => 0];

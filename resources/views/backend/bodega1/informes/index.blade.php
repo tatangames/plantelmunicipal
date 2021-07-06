@@ -46,7 +46,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Total Invertido en Bodega</span>
-                                <span class="info-box-number">${{ $sumaIngreso }}</span>
+                                <span class="info-box-number">${{ $sumaPrecio }}</span>
                             </div>
                         </div>
                     </div>
@@ -61,8 +61,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
 
                     <div class="card-body" style="margin-top: 20px">
@@ -131,7 +129,7 @@
             formData.append('desde', fechadesde);
             formData.append('hasta', fechahasta);
 
-            axios.post('/admin1/informes/bodega1/ingresos-fechas', formData, {
+            axios.post(url+'/sistema1/informes/bodega1/ingresos-fechas', formData, {
             })
                 .then((response) => {
                     closeLoading();

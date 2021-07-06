@@ -147,8 +147,27 @@
             });
         });
 
-        // verificar que todos los datos a ingresar sean correctos
         function verificar(){
+
+            Swal.fire({
+                title: 'Guardar Registro?',
+                text: "",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    verificarRes();
+                }
+            })
+
+        }
+
+        // verificar que todos los datos a ingresar sean correctos
+        function verificarRes(){
 
             // minimo se necesitara 1 registro para guardar
             var nRegistro = $('#matriz >tbody >tr').length;
@@ -299,11 +318,11 @@
                 }
             });
 
-            axios.post('/admin2/bodega2/registrar/material', formData, {
+            axios.post(url+'/sistema2/bodega2/registrar/material', formData, {
             })
                 .then((response) => {
                     closeLoading();
-                    console.log(response);
+
                     if(response.data.success === 1){
                         // registrado correctamente
                         toastMensaje('success', 'Registrado');
@@ -389,11 +408,8 @@
                 conteo +=1;
                 var element = table.rows[r].cells[0].children[0];
                 document.getElementById(element.id).innerHTML = ""+conteo;
-
             }
-
         }
-
 
     </script>
 

@@ -83,7 +83,7 @@ class IngresoB2Controller extends Controller
         }catch(\Throwable $e){
             DB::rollback();
 
-            return ['success' => 2, 'nota' => 'data ' . $e];
+            return ['success' => 2];
         }
     }
 }

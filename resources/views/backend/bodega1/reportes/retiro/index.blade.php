@@ -66,7 +66,7 @@
                 return;
             }
 
-            window.open("{{ URL::to('/admin1/reportes/bodega1/retiro') }}/" + fechadesde + "/" + fechahasta);
+            window.open("{{ URL::to('sistema1/reportes/bodega1/retiro') }}/" + fechadesde + "/" + fechahasta);
         }
 
 

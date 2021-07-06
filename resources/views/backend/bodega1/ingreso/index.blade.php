@@ -139,7 +139,7 @@
             $('#'+(value)+'').autocomplete({
                 source: function(request, response){
 
-                    axios.post('/admin1/bodega/buscar/material', {
+                    axios.post(url+'/sistema1/bodega/buscar/material', {
                         'nombre' : request.term
                     })
                         .then((res) => {
@@ -202,8 +202,25 @@
             });
         });
 
-        // verificar que todos los datos a ingresar sean correctos
         function verificar(){
+            Swal.fire({
+                title: 'Guardar Ingreso?',
+                text: "",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Guardar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    verificarRes();
+                }
+            })
+        }
+
+        // verificar que todos los datos a ingresar sean correctos
+        function verificarRes(){
 
             // minimo se necesitara 1 registro para guardar
             var nRegistro = $('#matriz >tbody >tr').length;
@@ -350,7 +367,7 @@
                 }
             });
 
-            axios.post('/admin1/bodega/registrar/material', formData, {
+            axios.post(url+'/sistema1/bodega/registrar/material', formData, {
             })
                 .then((response) => {
                     closeLoading();
@@ -422,18 +439,6 @@
             $("tbody").append(markup);
         }
 
-        // alerta personalizada
-        function alertaMensaje(tipo, titulo, mensaje){
-
-            Swal.fire({
-                title: titulo,
-                text: mensaje,
-                icon: tipo,
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar',
-            })
-        }
 
         function borrarFila(elemento){
             var tabla = elemento.parentNode.parentNode;
