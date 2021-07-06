@@ -248,15 +248,14 @@ class RegistroBodega1Controller extends Controller
         $sumaIngreso = collect($ingresoSuma)->sum('cantidad');
         $sumaPrecio = collect($ingresoSuma)->sum('preciounitario');
 
+        $sumaPrecio = number_format((float)$sumaPrecio, 2, '.', '');
+
         // cantidad de los retiros detalle
 
         $retiro = RetiroBodegaDetalleB1::get();
         $sumaRetiro = collect($retiro)->sum('cantidad');
 
         $totalActual = $sumaIngreso - $sumaRetiro;
-
-        $sumaIngreso = 15;
-
 
         return view('backend.bodega1.informes.index', compact('sumaPrecio', 'totalActual'));
     }
