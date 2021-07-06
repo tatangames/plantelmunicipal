@@ -252,6 +252,12 @@ class IngresosB3Controller extends Controller
         $nombre = $info->nombre;
         $tipo = ServiciosB3::where('id', $info->id_servicios)->pluck('nombre')->first();
         $destino = $info->destino;
+        foreach ($tablas as $t){
+
+            $total = $t->cantidad * $t->preciounitario;
+            $total = number_format((float)$total, 2, '.', '');
+            $t->total = $total;
+        }
 
         // generar vista y enviar datos
         $view =  \View::make('backend.bodega3.ingreso.editar.reporte.pdf-proyecto', compact(['info', 'tablas',
@@ -471,6 +477,9 @@ class IngresosB3Controller extends Controller
 
             $persona = Usuario::where('id', $l->id_usuarios)->pluck('nombre')->first();
             $l->persona = $persona;
+
+            $bodega = BodegaUbicacionB3::where('id', $l->id_bodega_b3)->pluck('nombre')->first();
+            $l->bodega = $bodega;
         }
 
         return view('backend.bodega3.ingreso.verretiros.tabla.tablaverretiros', compact('listado'));
@@ -612,6 +621,9 @@ class IngresosB3Controller extends Controller
 
             $bodega = BodegaUbicacionB3::where('id', $l->id_bodega_ubicacion_b3)->pluck('nombre')->first();
             $l->bodega = $bodega;
+
+            $persona = Usuario::where('id', $l->id_usuarios)->pluck('nombre')->first();
+            $l->persona = $persona;
         }
 
         return view('backend.bodega3.ingreso.listaverificados.tabla.tablalistaverificados', compact('listado'));

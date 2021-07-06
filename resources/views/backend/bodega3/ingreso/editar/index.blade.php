@@ -68,7 +68,7 @@
                                     <center>
 
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="verSobrantes()">Ver Sobrantes</button>
+                                            <button type="button" class="btn btn-success" onclick="verSobrantes()">Existencias</button>
                                         </div>
 
                                         <div class="form-group">

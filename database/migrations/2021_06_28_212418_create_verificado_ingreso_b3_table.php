@@ -17,6 +17,9 @@ class CreateVerificadoIngresoB3Table extends Migration
             $table->id();
             $table->bigInteger('id_ingresos_b3')->unsigned();
 
+            // usuario
+            $table->bigInteger('id_usuarios')->unsigned();
+
             // ubicacion de bodega donde se verifica el ingreso
             $table->bigInteger('id_bodega_ubicacion_b3')->unsigned();
             $table->dateTime('fecha');
@@ -26,6 +29,7 @@ class CreateVerificadoIngresoB3Table extends Migration
 
             $table->foreign('id_ingresos_b3')->references('id')->on('ingresos_b3');
             $table->foreign('id_bodega_ubicacion_b3')->references('id')->on('bodega_ubicacion_b3');
+            $table->foreign('id_usuarios')->references('id')->on('usuarios');
         });
     }
 

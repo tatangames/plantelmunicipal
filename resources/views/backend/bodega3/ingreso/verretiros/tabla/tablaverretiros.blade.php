@@ -10,6 +10,7 @@
                                 <th>Fecha</th>
                                 <th>Tipo Retiro</th>
                                 <th>Persona Retiro</th>
+                                <th>Bodega</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -21,6 +22,7 @@
                                     <td>{{ $dato->fecha }}</td>
                                     <td>{{ $dato->tipo }}</td>
                                     <td>{{ $dato->persona }}</td>
+                                    <td>{{ $dato->bodega }}</td>
                                     <td>{{ $dato->nota }}</td>
                                     <td>
                                         <button type="button" class="btn btn-success btn-xs" onclick="verRegistros({{ $dato->id }})">

@@ -9,6 +9,7 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Bodega</th>
+                                <th>Persona Verifico</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -19,6 +20,7 @@
                                 <tr>
                                     <td>{{ $dato->fecha }}</td>
                                     <td>{{ $dato->bodega }}</td>
+                                    <td>{{ $dato->persona }}</td>
                                     <td>{{ $dato->nota }}</td>
                                     <td>
                                         <button type="button" class="btn btn-success btn-xs" onclick="verListaMateriales({{ $dato->id }})">

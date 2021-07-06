@@ -154,16 +154,18 @@
     <table id="tabla">
         <thead>
         <tr>
-            <th style="text-align: center; width: 11%">Cantidad</th>
             <th style="text-align: center; width: 40%">Descripción</th>
+            <th style="text-align: center; width: 11%">Cantidad</th>
             <th style="text-align: center; width: 13%">P.U</th>
+            <th style="text-align: center; width: 13%">Total</th>
         </tr>
         </thead>
         @foreach($tablas as $dato)
             <tr>
-                <td>{{ $dato->cantidad }}</td>
                 <td style="text-align: justify">{{ $dato->nombre }}</td>
+                <td>{{ $dato->cantidad }}</td>
                 <td>$ {{ $dato->preciounitario }}</td>
+                <td>$ {{ $dato->total }}</td>
             </tr>
         @endforeach
 

@@ -15,6 +15,7 @@ use App\Models\VerificadoIngresoB3;
 use App\Models\VerificadoIngresoDetalleB3;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -184,10 +185,13 @@ class VerificacionB3Controller extends Controller
 
             $fecha = Carbon::now('America/El_Salvador');
 
+            $idusuario = Auth::id();
+
             $veri = new VerificadoIngresoB3();
             $veri->id_ingresos_b3 = $request->id;
             $veri->id_bodega_ubicacion_b3 = $request->bodega;
             $veri->fecha = $fecha;
+            $veri->id_usuarios = $idusuario;
             $veri->nota = $request->nota;
 
             if($veri->save()){
