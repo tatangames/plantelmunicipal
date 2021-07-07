@@ -16,11 +16,7 @@
 
 <section class="content-header">
     <div class="container-fluid">
-        <br>
-        <button type="button" onclick="verListaExtra()" class="btn btn-success btn-sm">
-            <i class="fas fa-pencil-alt"></i>
-            Ver Ingreso de Materiales Extras
-        </button>
+
     </div>
 </section>
 
