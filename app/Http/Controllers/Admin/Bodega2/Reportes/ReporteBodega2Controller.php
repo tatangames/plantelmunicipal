@@ -64,10 +64,21 @@ class ReporteBodega2Controller extends Controller
                 ->where('id.id_ingresos_b2', $secciones->id) // segun el ID
                 ->get();
 
+            foreach ($subSecciones as $l){
+
+                $totalf = $l->cantidad * $l->preciounitario;
+                $totalf = number_format((float)$totalf, 2, '.', '');
+                $l->totalf = $totalf;
+
+                $totalSuma = $totalSuma + $totalf;
+            }
+
             // despues de obtener todos los detalles se sumara el total ingresado
-            $total = collect($subSecciones)->sum('preciounitario');
+            /*$total = collect($subSecciones)->sum('preciounitario');
             $totalSuma = $totalSuma + $total;
-            $secciones->total = number_format((float)$total, 2, '.', '');
+            $secciones->total = number_format((float)$total, 2, '.', '');*/
+
+
 
             // ingresar a fila detalles
             $resultsBloque[$index]->detalles = $subSecciones;
@@ -126,10 +137,19 @@ class ReporteBodega2Controller extends Controller
                 ->where('id.id_ingresos_b2', $secciones->id) // segun el ID
                 ->get();
 
+            foreach ($subSecciones as $l){
+
+                $totalf = $l->cantidad * $l->preciounitario;
+                $totalf = number_format((float)$totalf, 2, '.', '');
+                $l->totalf = $totalf;
+
+                $totalSuma = $totalSuma + $totalf;
+            }
+
             // despues de obtener todos los detalles se sumara el total ingresado
-            $total = collect($subSecciones)->sum('preciounitario');
+           /* $total = collect($subSecciones)->sum('preciounitario');
             $totalSuma = $totalSuma + $total;
-            $secciones->total = number_format((float)$total, 2, '.', '');
+            $secciones->total = number_format((float)$total, 2, '.', '');*/
 
             // ingresar a fila detalles
             $resultsBloque[$index]->detalles = $subSecciones;

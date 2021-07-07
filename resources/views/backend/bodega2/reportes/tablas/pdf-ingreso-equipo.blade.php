@@ -161,23 +161,26 @@
         <table id="tabla">
             <thead>
             <tr>
-                <th style="text-align: center; width: 11%">Cantidad</th>
                 <th style="text-align: center; width: 40%">Descripción</th>
                 <th style="text-align: center; width: 22%">Código</th>
+                <th style="text-align: center; width: 11%">Cantidad</th>
                 <th style="text-align: center; width: 13%">P.U</th>
+                <th style="text-align: center; width: 13%">Total</th>
             </tr>
             </thead>
 
             @foreach($dato->detalles as $deta)
                 <tr>
-                    <td>{{ $deta->cantidad }}</td>
                     <td>{{ $deta->nombre }}</td>
                     <td>{{ $deta->codigo }}</td>
+                    <td>{{ $deta->cantidad }}</td>
                     <td>$ {{ $deta->preciounitario }}</td>
+                    <td>$ {{ $deta->totalf }}</td>
                 </tr>
             @endforeach
             <tr>
                 <td>Total</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td>$ {{ $dato->total }}</td>
@@ -191,8 +194,8 @@
                 <table id="tabla">
                     <thead>
                     <tr>
-                        <th style="text-align: center; width: 11%">Total</th>
-                        <th style="text-align: center; width: 40%">$ {{ $totalSuma }}</th>
+                        <td style="text-align: center; width: 11%">Total</td>
+                        <td style="text-align: center; width: 40%">$ {{ $totalSuma }}</td>
                     </tr>
                     </thead>
                 </table>
