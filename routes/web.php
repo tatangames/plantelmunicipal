@@ -186,6 +186,15 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::get('sistema2/bodega2/ingreso', [IngresoB2Controller::class,'indexBodega2Ingreso'])->name('registro.bodega2.index');
     Route::post('admin/sistema2/bodega2/registrar/material', [IngresoB2Controller::class,'registrarDetalleEquipo']);
 
+    // editar registros (lista)
+    Route::get('sistema2/registros/listado', [IngresoB2Controller::class,'indexEditarRegistros'])->name('editar.registro.bodega2.index');
+    Route::get('sistema2/registros/listado-tabla', [IngresoB2Controller::class,'tablaEditarRegistros']);
+
+    Route::get('sistema2/registros/listado/editar/{id}', [IngresoB2Controller::class,'listadoEditarRegistro']);
+
+    // editar registro
+    Route::post('admin/sistema2/registros/editar', [IngresoB2Controller::class,'editarMaterialesProyecto']);
+
     // --- REPORTES BODEGA 2---
     // vistas
     Route::get('sistema2/reportes/ingreso/bodega2/index', [ReporteBodega2Controller::class,'indexReporteBodega2Ingreso'])->name('reporte.ingreso.bodega2');
@@ -264,10 +273,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::get('sistema3/ingreso/descargar-documento/{id}', [IngresosB3Controller::class,'descargarDocumento']);
     Route::post('admin/sistema3/ingreso/nuevo-documento', [IngresosB3Controller::class,'nuevoDocumento']);
 
+    // borrar documento unicamente el que lo subio
+    Route::post('admin/sistema3/ingreso/borrar-documento', [IngresosB3Controller::class,'borrarDocumento']);
+
     // ver lista de verificados unicamente
     Route::get('sistema3/ingreso/ver/lista-de-verificados/{id}', [IngresosB3Controller::class,'indexListaVerificados']);
     Route::get('sistema3/ingreso/ver/lista-de-verificados/tabla/{id}', [IngresosB3Controller::class,'tablaIndexListaVerificados']);
     Route::get('sistema3/ingreso/ver/lista-de-verificados-detalles/{id}', [IngresosB3Controller::class,'detalleListaVerificados']);
+
+    // obtener informacion del proyecto para mostrar x botones
+    Route::post('admin/sistema3/proyectos/informacion', [IngresosB3Controller::class,'informacionProyecto']);
 
 
 
@@ -335,6 +350,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::get('sistema3/verificacion/lista-documentos/tabla/{id}', [VerificacionB3Controller::class,'tablaIndexListaDocumentos']);
     Route::get('sistema3/verificacion/descargar-documento/{id}', [VerificacionB3Controller::class,'descargarDocumento']);
 
+    // ver lista de sobrantes
+    Route::get('sistema3/verificacion/ver/lista-sobrantes/{id}', [VerificacionB3Controller::class,'indexListaSobrantes']);
 
 
 

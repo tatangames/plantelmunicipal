@@ -7,6 +7,7 @@
                         <table id="tabla" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th>Cantidad</th>
                                 <th>Precio Unitario</th>
@@ -15,12 +16,13 @@
                             </thead>
                             <tbody>
 
-                            @foreach($listado as $dato)
+                            @foreach($dataArray as $dato)
                                 <tr>
-                                    <td>{{ $dato->nombre }}</td>
-                                    <td>{{ $dato->cantidad }}</td>
-                                    <td>$ {{ $dato->preciounitario }}</td>
-                                    <td>$ {{ $dato->total }}</td>
+                                    <td>{{ $dato['fecha'] }}</td>
+                                    <td>{{ $dato['nombre'] }}</td>
+                                    <td>{{ $dato['cantidad'] }}</td>
+                                    <td>$ {{ $dato['preciounitario'] }}</td>
+                                    <td>$ {{ $dato['total'] }}</td>
                                 </tr>
                             @endforeach
 

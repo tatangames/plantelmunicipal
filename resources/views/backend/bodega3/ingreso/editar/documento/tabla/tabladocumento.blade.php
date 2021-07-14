@@ -7,7 +7,8 @@
                         <table id="tabla" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Agregado Por</th>
                                 <th>Opciones</th>
                             </tr>
                             </thead>
@@ -16,10 +17,18 @@
                             @foreach($listado as $dato)
                                 <tr>
                                     <td>{{ $dato->nombre }}</td>
-
+                                    <td>{{ $dato->usuario }}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{ url('sistema3/ingreso/descargar-documento/'.$dato->urldoc) }}">
                                             <i class="fas fa-eye" title="Descargar"></i> Descargar</a>
+
+                                        @if($dato->esmio == 1)
+
+                                            <button type="button" class="btn btn-danger btn-xs" onclick="verBorrar({{ $dato->id }})">
+                                                <i class="fas fa-edit" title="Borrar"></i> Borrar
+                                            </button>
+
+                                        @endif
                                     </td>
 
                                 </tr>

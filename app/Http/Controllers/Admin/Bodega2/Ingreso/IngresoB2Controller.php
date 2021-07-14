@@ -86,4 +86,100 @@ class IngresoB2Controller extends Controller
             return ['success' => 2];
         }
     }
+
+
+    public function indexEditarRegistros(){
+        return view('backend.bodega2.editar.index');
+    }
+
+    public function tablaEditarRegistros(){
+
+        $listado = IngresosB2::orderBy('fecha', 'ASC')->get();
+
+        foreach ($listado as $l){
+
+            $fecha = date("d-m-Y h:i A", strtotime($l->fecha));
+            $l->fecha = $fecha;
+
+            $equi = EquiposB2::where('id', $l->id_equipo2)->first();
+            $l->equiponombre = $equi->nombre;
+        }
+
+        return view('backend.bodega2.editar.tabla.tablaeditar', compact('listado'));
+    }
+
+
+    public function listadoEditarRegistro($id){
+        $listado = IngresosDetalleB2::where('id_ingresos_b2', $id)->get();
+
+        $info = IngresosB2::where('id', $id)->first();
+
+        $nota = $info->nota;
+
+        $equipos = EquiposB2::orderBy('nombre')->get();
+
+        $idequipo = $info->id_equipo2;
+
+        $fila = 0;
+
+        foreach ($listado as $l){
+            $fila++;
+
+            $l->fila = $fila;
+        }
+
+        return view('backend.bodega2.editar.lista.index', compact('listado', 'equipos', 'nota', 'idequipo', 'id'));
+    }
+
+
+    // editar materiales por un admin calificado
+    public function editarMaterialesProyecto(Request $request){
+
+        $regla = array(
+            'id' => 'required',
+            'identificador' => 'required|array',
+            'material' => 'required|array',
+            'precio' => 'required|array',
+            'cantidad' => 'required|array',
+        );
+
+        $validar = Validator::make($request->all(), $regla);
+
+        if ($validar->fails()){return ['success' => 0];}
+
+        // iniciar el try catch DB
+
+        DB::beginTransaction();
+
+        try {
+
+            // editar ingreso_b3
+
+            IngresosB2::where('id', $request->id)
+                ->update(['id_equipo2' => $request->selectequipo,
+                    'nota' => $request->nota,
+                ]);
+
+            // recorrer cada material para actualizarlo
+            for ($i = 0; $i < count($request->material); $i++) {
+
+                IngresosDetalleB2::where('id', $request->identificador[$i])
+                    ->update(['nombre' => $request->material[$i],
+                        'cantidad' => $request->cantidad[$i],
+                        'preciounitario' => $request->precio[$i],
+                        'codigo' => $request->codigo[$i]
+                    ]);
+            }
+
+            DB::commit();
+            return ['success' => 1];
+
+        }catch(\Throwable $e){
+            DB::rollback();
+
+            return ['success' => 2];
+        }
+    }
+
+
 }

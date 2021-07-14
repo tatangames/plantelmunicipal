@@ -9,6 +9,7 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Bodega</th>
+                                <th>Retirado Por</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -19,12 +20,17 @@
                                 <tr>
                                     <td>{{ $dato->fecha }}</td>
                                     <td>{{ $dato->bodega }}</td>
+                                    <td>{{ $dato->usuario }}</td>
                                     <td>{{ $dato->nota }}</td>
 
                                     <td>
-                                        <button type="button" class="btn btn-success btn-xs" onclick="verEditarMaterial({{ $dato->id }})">
-                                            <i class="fas fa-edit" title="Editar Material"></i> Editar Material
-                                        </button>
+
+                                        @if($dato->esmio == 1)
+                                            <button type="button" class="btn btn-success btn-xs" onclick="verEditarMaterial({{ $dato->id }})">
+                                                <i class="fas fa-edit" title="Editar Material"></i> Editar Material
+                                            </button>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach

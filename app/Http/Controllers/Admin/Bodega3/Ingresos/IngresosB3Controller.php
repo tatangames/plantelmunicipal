@@ -33,8 +33,6 @@ class IngresosB3Controller extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-        // aplica a todos los metodos
-        $this->middleware('can:vista.grupo.bodega3.ingreso.nuevo-ingreso');
     }
 
     public function indexBodega3Ingreso(){
@@ -69,18 +67,6 @@ class IngresosB3Controller extends Controller
         $validar = Validator::make($request->all(), $regla);
 
         if ($validar->fails()){return ['success' => 0];}
-
-        if ($request->hasFile('documento')) {
-
-            // validacion si manda el documento pdf
-            $regla2 = array(
-                'documento' => 'required|mimes:pdf',
-            );
-
-            $validar2 = Validator::make($request->all(), $regla2);
-
-            if ($validar2->fails()){ return ['success' => 0];}
-        }
 
         // iniciar el try catch DB
 
@@ -151,6 +137,7 @@ class IngresosB3Controller extends Controller
                     $docu->id_ingresos_b3 = $ingreso->id;
                     $docu->nombre = $request->nombredoc;
                     $docu->urldoc = $nombreDocumento;
+                    $docu->id_usuarios = $idusuario;
                     $docu->save();
 
                     DB::commit();
@@ -221,6 +208,8 @@ class IngresosB3Controller extends Controller
 
         $listado = IngresosB3::orderBy('fecha', 'ASC')->get();
 
+        $idusuario = Auth::id();
+
         foreach ($listado as $l){
             $l->fecha = date("d-m-Y", strtotime($l->fecha));
             $servicio = ServiciosB3::where('id', $l->id_servicios)->pluck('nombre')->first();
@@ -228,11 +217,23 @@ class IngresosB3Controller extends Controller
 
             $estado = EstadoProyectoB3::where('id', $l->id_estado_proyecto_b3)->pluck('nombre')->first();
             $fechater = "";
-            if($l->fecha_terminado != null){
-                $fechater = date("d-m-Y h:i A", strtotime($l->fecha_terminado));
+
+            if($l->id_estado_proyecto_b3 == 2) {
+                if ($l->fecha_terminado != null) {
+                    $fechater = date("d-m-Y h:i A", strtotime($l->fecha_terminado));
+                }
             }
 
-            $l->estado = $estado . ".. " . $fechater;
+            if($l->id_usuarios == $idusuario){
+                $l->esmio = 1;
+            }else{
+                $l->esmio = 0;
+            }
+
+            $usuario = Usuario::where('id', $l->id_usuarios)->pluck('nombre')->first();
+            $l->usuario = $usuario;
+
+            $l->estado = $estado . " " . $fechater;
         }
 
         return view('backend.bodega3.ingreso.editar.tabla.tablaeditar', compact('listado'));
@@ -252,16 +253,64 @@ class IngresosB3Controller extends Controller
         $nombre = $info->nombre;
         $tipo = ServiciosB3::where('id', $info->id_servicios)->pluck('nombre')->first();
         $destino = $info->destino;
-        foreach ($tablas as $t){
 
-            $total = $t->cantidad * $t->preciounitario;
+        $dataArray = array();
+
+        foreach ($tablas as $l){
+
+            $total = $l->cantidad * $l->preciounitario;
             $total = number_format((float)$total, 2, '.', '');
-            $t->total = $total;
+
+            if($rem = RegistroExtraMaterialDetalleB3::where('id_ingresos_detalle_b3', $l->id)->first()){
+                // si lo encuentra es un material extra agregado
+                // obtener fecha cuando se agrego
+
+                $infodeta = RegistroExtraMaterialB3::where('id', $rem->id_reg_ex_mate_b3)->first();
+
+                // meter la fecha
+                $fecha = date("d-m-Y", strtotime($infodeta->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'cantidad' => $l->cantidad,
+                    'preciounitario' => $l->preciounitario,
+                    'total' =>  $total
+                ];
+
+            }else{
+                // es un material agregado al crear el proyecto
+                $daa = IngresosB3::where('id', $l->id_ingresos_b3)->first();
+
+                $fecha = date("d-m-Y", strtotime($daa->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'cantidad' => $l->cantidad,
+                    'preciounitario' => $l->preciounitario,
+                    'total' =>  $total
+                ];
+            }
+        }
+
+
+        usort($dataArray, array( $this, 'sortDate' ));
+
+        $lista = IngresosEncargadoB3::where('id_ingresos_b3', $id)->get();
+
+        foreach ($lista as $l){
+
+            $cargo = CargosB3::where('id', $l->id_cargos_b3)->first();
+            $l->nombrecargo = $cargo->nombre;
+
+            $persona = EncargadosB3::where('id', $l->id_encargados_b3)->first();
+            $l->persona = $persona->nombre;
         }
 
         // generar vista y enviar datos
-        $view =  \View::make('backend.bodega3.ingreso.editar.reporte.pdf-proyecto', compact(['info', 'tablas',
-            'servicio', 'fecha', 'codigo', 'nota', 'nombre', 'tipo', 'destino']))->render();
+        $view =  \View::make('backend.bodega3.ingreso.editar.reporte.pdf-proyecto', compact(['info', 'dataArray',
+            'servicio', 'fecha', 'codigo', 'nota', 'nombre', 'tipo', 'destino', 'lista']))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadHTML($view)->setPaper('carta', 'portrait');
@@ -283,9 +332,60 @@ class IngresosB3Controller extends Controller
 
         $listado = IngresosDetalleB3::where('id_ingresos_b3', $id)->orderBy('nombre')->get();
 
+        $dataArray = array();
+
+        foreach ($listado as $l){
+            if($rem = RegistroExtraMaterialDetalleB3::where('id_ingresos_detalle_b3', $l->id)->first()){
+                // si lo encuentra es un material extra agregado
+                // obtener fecha cuando se agrego
+
+                $infodeta = RegistroExtraMaterialB3::where('id', $rem->id_reg_ex_mate_b3)->first();
+
+                // meter la fecha
+                $fecha = date("d-m-Y", strtotime($infodeta->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'id' => $l->id,
+                    'nombre' => $l->nombre,
+                    'preciounitario' => $l->preciounitario,
+                    'cantidad' => $l->cantidad,
+                ];
+
+            }else{
+                // es un material agregado al crear el proyecto
+                $daa = IngresosB3::where('id', $l->id_ingresos_b3)->first();
+
+                $fecha = date("d-m-Y", strtotime($daa->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'id' => $l->id,
+                    'nombre' => $l->nombre,
+                    'preciounitario' => $l->preciounitario,
+                    'cantidad' => $l->cantidad,
+                ];
+            }
+        }
+
+        // metodos para ordenar el array
+        usort($dataArray, array( $this, 'sortDate' ));
+
+        $fila = 1;
+
         return view('backend.bodega3.ingreso.editar.modificar.index', compact('id',
-            'listado', 'nombre', 'destino', 'codigo', 'nota', 'idservicio', 'lista'));
+            'dataArray', 'nombre', 'destino', 'codigo', 'nota', 'idservicio', 'lista', 'fila'));
     }
+
+    // metodo para ordenar un array con fechas
+    public function sortDate($a, $b){
+        if (strtotime($a['fecha']) == strtotime($b['fecha'])) return 0;
+
+        // con el simbolo > vamos a ordenar que las Fechas ultimas sean la primera posicion
+        // con el simbolo < vamos a ordenar que las Fechas primeras este en la primera posicion
+        return (strtotime($a['fecha']) < strtotime($b['fecha'])) ?-1:1;
+    }
+
 
     // editar materiales por un admin calificado
     public function editarMaterialesProyecto(Request $request){
@@ -364,12 +464,14 @@ class IngresosB3Controller extends Controller
         try {
 
             $fecha = Carbon::now('America/El_Salvador');
+            $idusuario = Auth::id();
 
             // registrar la nota al ingreso extra
             $deta = new RegistroExtraMaterialB3();
             $deta->fecha = $fecha;
             $deta->id_ingresos_b3 = $request->id;
             $deta->nota = $request->nota;
+            $deta->id_usuarios = $idusuario;
             $deta->save();
 
             // ingresar detalles de materiales
@@ -408,26 +510,36 @@ class IngresosB3Controller extends Controller
     public function tablaIndexListaDocumentos($id){
         $listado = DocumentoIngresoB3::where('id_ingresos_b3', $id)->orderBy('nombre')->get();
 
+        $idusuario = Auth::id();
+
+        foreach ($listado as $l){
+            $infousuario = Usuario::where('id', $l->id_usuarios)->first();
+            $l->usuario = $infousuario->nombre;
+
+            if($l->id_usuarios == $idusuario){
+                $l->esmio = 1;
+            }else{
+                $l->esmio = 0;
+            }
+        }
+
         return view('backend.bodega3.ingreso.editar.documento.tabla.tabladocumento', compact('listado'));
     }
 
     public function descargarDocumento($url){
 
-        $file="storage/documentos/".$url;
-        $headers = array('Content-Type: application/pdf');
-        return response()->download($file, 'Documento.pdf', $headers);
+        $pathToFile = "storage/documentos/".$url;
+
+        $extension = pathinfo(($pathToFile), PATHINFO_EXTENSION);
+
+        $nombre = "Documento." . $extension;
+
+        return response()->download($pathToFile, $nombre);
     }
 
     public function nuevoDocumento(Request $request){
 
         // validacion si manda el documento pdf
-        $regla2 = array(
-            'documento' => 'required|mimes:pdf',
-        );
-
-        $validar2 = Validator::make($request->all(), $regla2);
-
-        if ($validar2->fails()){ return ['success' => 0];}
 
         $cadena = Str::random(15);
         $tiempo = microtime();
@@ -443,10 +555,14 @@ class IngresosB3Controller extends Controller
 
         if($upload){
 
+            $idusuario = Auth::id();
+
             $docu = new DocumentoIngresoB3();
             $docu->id_ingresos_b3 = $request->id;
             $docu->nombre = $request->nombredoc;
             $docu->urldoc = $nombreDocumento;
+            $docu->id_usuarios = $idusuario;
+
             if($docu->save()){
                 return ['success' => 1];
             }else{
@@ -503,25 +619,58 @@ class IngresosB3Controller extends Controller
         // viene id de ingreso_b3
 
         $listado = IngresosDetalleB3::where('id_ingresos_b3', $id)->orderBy('nombre')->get();
+        $dataArray = array();
 
         foreach ($listado as $l){
 
             // obtener cantidad verificada
             $listave = VerificadoIngresoDetalleB3::where('id_ingresos_detalle_b3', $l->id)->get();
             $totalve = collect($listave)->sum('cantidad');
-            $l->cantiverificada = $totalve;
 
             // obtener cantidad retirada
             $listare = RetiroBodegaDetalleB3::where('id_ingresos_detalle_b3', $l->id)->get();
             $totalre = collect($listare)->sum('cantidad');
-            $l->cantiretirada = $totalre;
 
             $resta = $totalve - $totalre;
-            $l->sobrante = $resta;
 
+            if($rem = RegistroExtraMaterialDetalleB3::where('id_ingresos_detalle_b3', $l->id)->first()){
+                // si lo encuentra es un material extra agregado
+                // obtener fecha cuando se agrego
+
+                $infodeta = RegistroExtraMaterialB3::where('id', $rem->id_reg_ex_mate_b3)->first();
+
+                // meter la fecha
+                $fecha = date("d-m-Y", strtotime($infodeta->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'cantidad' => $l->cantidad,
+                    'cantiverificada' => $totalve,
+                    'cantiretirada' => $totalre,
+                    'sobrante' => $resta
+                ];
+
+            }else{
+                // es un material agregado al crear el proyecto
+                $daa = IngresosB3::where('id', $l->id_ingresos_b3)->first();
+
+                $fecha = date("d-m-Y", strtotime($daa->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'cantidad' => $l->cantidad,
+                    'cantiverificada' => $totalve,
+                    'cantiretirada' => $totalre,
+                    'sobrante' => $resta
+                ];
+            }
         }
 
-        return view('backend.bodega3.ingreso.sobrante.index', compact('listado'));
+        usort($dataArray, array( $this, 'sortDate' ));
+
+        return view('backend.bodega3.ingreso.sobrante.index', compact('dataArray'));
     }
 
     public function verEncargadosProyecto($id){
@@ -555,15 +704,47 @@ class IngresosB3Controller extends Controller
     // tabla *
     public function tablaMateriales($id){
         $listado = IngresosDetalleB3::where('id_ingresos_b3', $id)->orderBy('nombre')->get();
+        $dataArray = array();
 
         foreach ($listado as $l){
 
             $total = $l->cantidad * $l->preciounitario;
             $total = number_format((float)$total, 2, '.', '');
-            $l->total = $total;
+
+            if($rem = RegistroExtraMaterialDetalleB3::where('id_ingresos_detalle_b3', $l->id)->first()){
+                // si lo encuentra es un material extra agregado
+                // obtener fecha cuando se agrego
+
+                $infodeta = RegistroExtraMaterialB3::where('id', $rem->id_reg_ex_mate_b3)->first();
+
+                // meter la fecha
+                $fecha = date("d-m-Y", strtotime($infodeta->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'preciounitario' => $l->preciounitario,
+                    'cantidad' => $l->cantidad,
+                    'total' => $total
+                ];
+
+            }else{
+                // es un material agregado al crear el proyecto
+                $daa = IngresosB3::where('id', $l->id_ingresos_b3)->first();
+
+                $fecha = date("d-m-Y", strtotime($daa->fecha));
+
+                $dataArray[] = [
+                    'fecha' => $fecha,
+                    'nombre' => $l->nombre,
+                    'preciounitario' => $l->preciounitario,
+                    'cantidad' => $l->cantidad,
+                    'total' => $total
+                ];
+            }
         }
 
-        return view('backend.bodega3.ingreso.listamaterial.tabla.tablalistamaterial', compact('listado'));
+        return view('backend.bodega3.ingreso.listamaterial.tabla.tablalistamaterial', compact('dataArray'));
     }
 
     // lista de materiales extra + fecha y nota
@@ -578,6 +759,9 @@ class IngresosB3Controller extends Controller
         foreach ($listado as $l){
             $fecha = date("d-m-Y h:i A", strtotime($l->fecha));
             $l->fecha = $fecha;
+
+            $usuario = Usuario::where('id', $l->id_usuarios)->first();
+            $l->usuario = $usuario->nombre;
         }
 
         return view('backend.bodega3.ingreso.listamaterial.extra.tabla.tablaextra', compact('listado'));
@@ -641,5 +825,58 @@ class IngresosB3Controller extends Controller
 
         return view('backend.bodega3.ingreso.listaverificados.lista.index', compact('listado'));
     }
+
+    // public informacion de proyectos
+    public function informacionProyecto(Request $request){
+
+        $idusuario = Auth::id();
+
+        // primero saver si el proyecto fue creado por idusuario
+        $data = IngresosB3::where('id', $request->id)->first();
+
+        $esmio = 0;
+
+        if($data->id_usuarios == $idusuario){
+            $esmio = 1;
+        }
+
+        return ['success' => 1, 'esmio' => $esmio];
+    }
+
+    // borrar documento
+    public function borrarDocumento(Request $request){
+
+        $regla = array(
+            'id' => 'required'
+        );
+
+        $validar = Validator::make($request->all(), $regla);
+
+        if ($validar->fails()) { return ['success' => 0]; }
+
+        $idusuario = Auth::id();
+
+        if($data = DocumentoIngresoB3::where('id', $request->id)->first()){
+            // solo puedo borrar si es mi archivo subido
+            if($data->id_usuarios == $idusuario){
+
+                $imagenOld = $data->urldoc;
+
+                DocumentoIngresoB3::where('id', $request->id)->delete();
+
+                // borrar foto anterior
+                if(Storage::disk('documentos')->exists($imagenOld)){
+                    Storage::disk('documentos')->delete($imagenOld);
+                }
+            }
+
+            return ['success' => 1];
+        }else{
+            return ['success' => 2];
+        }
+    }
+
+
+
 
 }

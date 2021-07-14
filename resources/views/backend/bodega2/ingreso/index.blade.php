@@ -235,8 +235,8 @@
                     return;
                 }
 
-                if(datoPrecioUnitario <= 0){
-                    alertaMensaje('warning','Inválido', 'En la fila "' + (c+1) + '", el número del Precio Unitario no es valido, debe ser mayor a 0')
+                if(datoPrecioUnitario < 0){
+                    alertaMensaje('warning','Inválido', 'En la fila "' + (c+1) + '", el número del Precio Unitario no es valido')
                     return;
                 }
 

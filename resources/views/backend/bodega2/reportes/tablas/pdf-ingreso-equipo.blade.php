@@ -145,20 +145,14 @@
 </footer>
 
 <div id="content">
+    <br> <br>
 
     @foreach($tablas as $dato)
 
-        @if ($loop->iteration == 1)
-            <label class="fecha">Fecha: {{ $dato->fecha }}</label> <br>
-            <p class="fecha">Nota: {{ $dato->nota }}</p>
-        @else
-            <div style="margin-top: 40px">
-                <label class="fecha">Fecha: {{ $dato->fecha }}</label> <br>
-                <p class="fecha">Nota: {{ $dato->nota }}</p>
-            </div>
-        @endif
+        <p class="fecha"> Fecha: {{ $dato->fecha }}</p>
+        <p class="fecha"> Nota: {{ $dato->nota }}</p>
 
-        <table id="tabla">
+        <table id="tabla" style="width: 90%">
             <thead>
             <tr>
                 <th style="text-align: center; width: 40%">Descripción</th>
@@ -171,11 +165,11 @@
 
             @foreach($dato->detalles as $deta)
                 <tr>
-                    <td>{{ $deta->nombre }}</td>
-                    <td>{{ $deta->codigo }}</td>
-                    <td>{{ $deta->cantidad }}</td>
-                    <td>$ {{ $deta->preciounitario }}</td>
-                    <td>$ {{ $deta->totalf }}</td>
+                    <td style="text-align: center; width: 40%">{{ $deta->nombre }}</td>
+                    <td style="text-align: center; width: 22%">{{ $deta->codigo }}</td>
+                    <td style="text-align: center; width: 11%">{{ $deta->cantidad }}</td>
+                    <td style="text-align: center; width: 13%">$ {{ $deta->preciounitario }}</td>
+                    <td style="text-align: center; width: 13%">$ {{ $deta->totalf }}</td>
                 </tr>
             @endforeach
             <tr>

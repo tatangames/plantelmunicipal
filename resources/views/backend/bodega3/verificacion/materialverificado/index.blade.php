@@ -43,7 +43,8 @@
                             <table class="table" id="matriz"  data-toggle="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="max-width: 75px">Nombre</th>
+                                    <th scope="col" style="max-width: 15px">Fecha</th>
+                                    <th scope="col" style="max-width: 75px">Descripción</th>
                                     <th scope="col" style="max-width: 15px">Existencia Ingresada</th>
                                     <th scope="col" style="max-width: 15px">Existencia Verificada</th>
                                     <th scope="col" style="max-width: 15px">Existencia A Registrar</th>
@@ -51,15 +52,19 @@
                                 </thead>
                                 <tbody id="myTbody">
 
-                                    @foreach($listado as $dato)
+                                    @foreach($dataArray as $dato)
 
                                         <tr>
-                                            <td style="max-width: 75px">
-                                                <input name="identificador[]" type="hidden" value="{{ $dato->id }}">
-                                                <input name="material[]" disabled id="{{ $dato->id }}" class="form-control" type="text" value="{{ $dato->nombre }}">
+                                            <td style="max-width: 15px">
+                                                <input  disabled class="form-control" value="{{ $dato['fecha'] }}" >
                                             </td>
-                                            <td style="max-width: 15px"><input name="cmaxima[]" disabled class="form-control" value="{{ $dato->cantidad }}" ></td>
-                                            <td style="max-width: 15px"><input name="registrado[]" disabled class="form-control" value="{{ $dato->registrado }}" ></td>
+
+                                            <td style="max-width: 75px">
+                                                <input name="identificador[]" type="hidden" value="{{ $dato['id'] }}">
+                                                <input name="material[]" disabled class="form-control" type="text" value="{{ $dato['nombre'] }}">
+                                            </td>
+                                            <td style="max-width: 15px"><input name="cmaxima[]" disabled class="form-control" value="{{ $dato['cantidad'] }}" ></td>
+                                            <td style="max-width: 15px"><input name="registrado[]" disabled class="form-control" value="{{ $dato['registrado'] }}" ></td>
                                             <td style="max-width: 15px"><input name="cregistrar[]" class="form-control" value="0" ></td>
                                         </tr>
 

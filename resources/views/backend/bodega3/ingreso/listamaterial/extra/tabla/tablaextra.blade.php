@@ -8,6 +8,7 @@
                             <thead>
                             <tr>
                                 <th>Fecha</th>
+                                <th>Agregado Por</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -17,6 +18,7 @@
                             @foreach($listado as $dato)
                                 <tr>
                                     <td>{{ $dato->fecha }}</td>
+                                    <td>{{ $dato->usuario }}</td>
                                     <td>{{ $dato->nota }}</td>
                                     <td>
                                         <button type="button" class="btn btn-success btn-xs" onclick="verListaMateriales({{ $dato->id }})">

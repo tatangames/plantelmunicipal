@@ -26,13 +26,6 @@ class RetiroMaterialB3Controller extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
-
-        // aplica a todos los metodos
-        $this->middleware('can:vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.retirar-material', ['only' => ['verRetiroMaterialIndex',
-            'registrarRetiro']]);
-
-        $this->middleware('can:vista.grupo.bodega3.proyectos.lista-de-proyectos.boton.editar-verificar-material', ['only' => ['indexListaRetirosEditar',
-            'tablaIndexListaRetirosEditar', 'indexVistaEditarRetiroMaterial', 'modificarCantidadRetirda']]);
     }
 
     // index para retiro de material
@@ -179,7 +172,6 @@ class RetiroMaterialB3Controller extends Controller
         return ['success' => 1];
     }
 
-
     // index lista de retiros para editar
     public function indexListaRetirosEditar($id){
         // viene el id de proyecto
@@ -191,6 +183,7 @@ class RetiroMaterialB3Controller extends Controller
     // tabla
     public function tablaIndexListaRetirosEditar($id){
         $listado = RetiroBodegaB3::where('id_ingresos_b3', $id)->get();
+        $idusuario = Auth::id();
 
         foreach ($listado as $l){
 
@@ -200,6 +193,13 @@ class RetiroMaterialB3Controller extends Controller
 
             $l->usuario = $usuario;
             $l->tipo = $tipo;
+
+            if($l->id_usuarios == $idusuario){
+                $l->esmio = 1;
+            }else{
+                $l->esmio = 2;
+            }
+
         }
 
         return view('backend.bodega3.retiro.listaretiro.tabla.tablalistaretiro', compact('listado'));

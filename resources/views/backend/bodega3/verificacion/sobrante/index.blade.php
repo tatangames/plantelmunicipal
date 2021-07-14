@@ -29,7 +29,7 @@
                             <table class="table" id="matriz"  data-toggle="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="max-width: 16px">Fecha</th>
+                                    <th scope="col" style="max-width: 50px">Fecha</th>
                                     <th scope="col" style="max-width: 50px">Descripción</th>
                                     <th scope="col" style="max-width: 15px">Existencia Inicial</th>
                                     <th scope="col" style="max-width: 15px">Existencia Verificada</th>
@@ -42,7 +42,7 @@
                                 @foreach($dataArray as $dato)
 
                                     <tr>
-                                        <td style="max-width: 16px">
+                                        <td style="max-width: 10px">
                                             <input disabled class="form-control" type="text" value="{{ $dato['fecha'] }}">
                                         </td>
                                         <td style="max-width: 75px">

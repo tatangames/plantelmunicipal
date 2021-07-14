@@ -23,9 +23,13 @@
                                     <td>{{ $dato->nota }}</td>
                                     <td>{{ $dato->tipo }}</td>
                                     <td>
+
+                                        @if($dato->esmio == 1)
                                         <button type="button" class="btn btn-success btn-xs" onclick="verEditarRetiro({{ $dato->id }})">
                                             <i class="fas fa-edit" title="Editar Material"></i> Editar Retiro
                                         </button>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach

@@ -70,7 +70,7 @@
                                 <div class="form-group row">
                                     <label class="control-label" style="margin-left: 5px">Documento: </label>
                                     <div class="col-sm-6" style="margin-left: 10px">
-                                        <input type="file" class="form-control" id="documento" accept="application/pdf" />
+                                        <input type="file" class="form-control" id="documento" accept="application/pdf, image/jpeg, image/jpg, image/png, .csv, .doc, .docx, .xlsx" />
                                     </div>
                                 </div>
 
@@ -441,8 +441,8 @@
             var doc = document.getElementById('documento');
 
             if(doc.files && doc.files[0]){ // si trae documento
-                if (!doc.files[0].type.match('application/pdf')){
-                    alertaMensaje('warning','Inválido', 'Formato permitido: .pdf');
+                if (!doc.files[0].type.match('application/pdf|image/jpeg|image/jpeg|image/png|csv|doc|docx|xlsx')){
+                    alertaMensaje('warning','Inválido', 'Formato permitido: .pdf e imagenes');
                     return false;
                 }
             }

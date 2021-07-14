@@ -32,12 +32,7 @@
                                             <i class="fas fa-edit" title="Encargados"></i> Ver Opciones
                                         </button>
 
-                                        @if($dato->id_estado_proyecto_b3 == 1)
-                                            <br><br>
-                                            <button type="button" class="btn btn-warning btn-xs" onclick="verCompletar({{ $dato->id }})">
-                                                <i class="fas fa-edit" title="Verificar"></i> Finalizar Proyecto
-                                            </button>
-                                        @endif
+
 
                                     </td>
                                 </tr>

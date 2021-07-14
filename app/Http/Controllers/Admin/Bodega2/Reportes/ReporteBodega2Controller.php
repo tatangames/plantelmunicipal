@@ -137,6 +137,8 @@ class ReporteBodega2Controller extends Controller
                 ->where('id.id_ingresos_b2', $secciones->id) // segun el ID
                 ->get();
 
+            $total = 0;
+
             foreach ($subSecciones as $l){
 
                 $totalf = $l->cantidad * $l->preciounitario;
@@ -144,7 +146,12 @@ class ReporteBodega2Controller extends Controller
                 $l->totalf = $totalf;
 
                 $totalSuma = $totalSuma + $totalf;
+
+                $total = $total + $totalf;
             }
+
+            $total = number_format((float)$total, 2, '.', '');
+            $secciones->total = $total;
 
             // despues de obtener todos los detalles se sumara el total ingresado
            /* $total = collect($subSecciones)->sum('preciounitario');

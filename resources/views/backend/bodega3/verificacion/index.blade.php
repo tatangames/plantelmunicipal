@@ -67,6 +67,11 @@
                                     </div>
 
                                     <center>
+
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success" onclick="verSobrantes()">Existencias</button>
+                                        </div>
+
                                         <div class="form-group">
                                             <button type="button" class="btn btn-success" onclick="verEncargados()">Encargados</button>
                                         </div>
@@ -88,7 +93,7 @@
                                         @endcan
 
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="verPdf()">Generar PDF</button>
+                                            <button type="button" class="btn btn-success" onclick="verPdf()">Generar Reporte</button>
                                         </div>
 
                                         <div class="form-group">
@@ -211,51 +216,11 @@
             window.location.href="{{ url('sistema3/retiromaterial/ver/lista-retiros') }}/"+id;
         }
 
-        // para completar el proyecto
-        function verCompletar(id){
-
-            Swal.fire({
-                title: 'Completar Proyecto?',
-                text: "Se pasara a: Proyecto Terminado",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Verificar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    revisar(id);
-                }
-            })
-        }
-
-        // esto solo verificara el proyecto a Terminado
-        function revisar(id){
-
-            openLoading();
-
-            let formData = new FormData();
-            formData.append('id', id);
-
-            axios.post(url+'/sistema3/retiromaterial/completar-proyecto', formData, {
-            })
-                .then((response) => {
-                    closeLoading();
-
-                    // verificado
-                    if(response.data.success === 1){
-                        toastMensaje('success', 'Verificado');
-                        recargar();
-                    }
-                    else{
-                        toastMensaje('error', 'Error al verificar');
-                    }
-                })
-                .catch((error) => {
-                    closeLoading();
-                    toastMensaje('error', 'Error al verificar');
-                });
+        // ver sobrantes
+        function verSobrantes(){
+            $('#modalAgregar').modal('hide');
+            var id = document.getElementById('id-global').value;
+            window.location.href="{{ url('sistema3/verificacion/ver/lista-sobrantes') }}/"+id;
         }
 
         // recargar tablas

@@ -253,6 +253,13 @@
                             </li>
 
                             <li class="nav-item">
+                                <a href="{{ route('editar.registro.bodega2.index') }}" target="frameprincipal" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Editar Registro</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="{{ route('admin2.equipo.index') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Equipos</p>

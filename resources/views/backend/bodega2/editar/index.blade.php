@@ -16,11 +16,7 @@
 
 <section class="content-header">
     <div class="container-fluid">
-        <br>
-        <button type="button" onclick="verListaExtra()" class="btn btn-success btn-sm">
-            <i class="fas fa-pencil-alt"></i>
-            Ver Ingreso de Materiales Extras
-        </button>
+
     </div>
 </section>
 
@@ -67,16 +63,21 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            var id = {{ $id }};
-            var ruta = "{{ url('sistema3/verificacion/material/listado-tabla') }}/"+id;
+            var ruta = "{{ url('sistema2/registros/listado-tabla') }}";
             $('#tablaDatatable').load(ruta);
         });
+    </script>
 
-        function verListaExtra(){
-            var id = {{ $id }};
-            window.location.href="{{ url('sistema3/ingreso/material-extra-lista') }}/"+id;
+    <script>
+
+        function verOpciones(id){
+            window.location.href="{{ url('sistema2/registros/listado/editar') }}/"+id;
         }
 
+
+
     </script>
+
+
 
 @stop

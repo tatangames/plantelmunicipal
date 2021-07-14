@@ -13,6 +13,7 @@
                                 <th>Tipo</th>
                                 <th>Código</th>
                                 <th>Estado</th>
+                                <th>Creado Por</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -27,11 +28,22 @@
                                     <td>{{ $dato->servicio }}</td>
                                     <td>{{ $dato->codigo }}</td>
                                     <td>{{ $dato->estado }}</td>
+                                    <td>{{ $dato->usuario }}</td>
                                     <td>{{ $dato->nota }}</td>
                                     <td>
                                         <button type="button" class="btn btn-success btn-xs" onclick="verTodaOpciones({{ $dato->id }})">
                                             <i class="fas fa-edit" title="Encargados"></i> Ver Opciones
                                         </button>
+
+                                        @if($dato->id_estado_proyecto_b3 == 1)
+                                           @if($dato->esmio == 1)
+                                                <br><br>
+                                                <button type="button" class="btn btn-warning btn-xs" onclick="verCompletar({{ $dato->id }})">
+                                                    <i class="fas fa-edit" title="Verificar"></i> Finalizar
+                                                </button>
+                                            @endif
+
+                                        @endif
 
                                     </td>
                                 </tr>

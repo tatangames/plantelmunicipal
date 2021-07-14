@@ -80,7 +80,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success" onclick="verMaterialesEditar()">Editar Proyecto</button>
+                                            <button type="button" class="btn btn-success" id="btneditarproyecto" onclick="verMaterialesEditar()">Editar Proyecto</button>
                                         </div>
 
                                         <div class="form-group">
@@ -140,10 +140,41 @@
 
     <script>
 
-        // abrir modal con todas las opciones
+        // buscar informacion primero para habilitar botones o ocultarlos
         function verTodaOpciones(id){
-            $('#modalAgregar').modal('show');
-            $('#id-global').val(id);
+            openLoading();
+
+            let formData = new FormData();
+            formData.append('id', id);
+
+            axios.post(url+'/sistema3/proyectos/informacion', formData, {
+            })
+                .then((response) => {
+                    closeLoading();
+
+                    // verificado
+                    if(response.data.success === 1){
+
+                        // habilitar boton editar proyecto.
+                        if(response.data.esmio === 1){
+                            // si creado por mi
+                            document.getElementById('btneditarproyecto').style.display = 'block';
+                        }else{
+                            // no creado por mi
+                            document.getElementById('btneditarproyecto').style.display = 'none';
+                        }
+
+                        $('#modalAgregar').modal('show');
+                        $('#id-global').val(id);
+                    }
+                    else{
+                        toastMensaje('error', 'No Encontrado');
+                    }
+                })
+                .catch((error) => {
+                    closeLoading();
+                    toastMensaje('error', 'Error');
+                });
         }
 
 
@@ -189,11 +220,6 @@
             window.open("{{ URL::to('sistema3/ingresoeditar/material/pdf') }}/" + id);
         }
 
-        // recargar tablas
-        function recargar(){
-            var ruta = "{{ url('sistema3/verificacion/listado-tabla') }}/";
-            $('#tablaDatatable').load(ruta);
-        }
 
         // ver lista de retiros
         function verListaRetiros(){
@@ -214,6 +240,62 @@
             $('#modalAgregar').modal('hide');
             var id = document.getElementById('id-global').value;
             window.location.href="{{ url('sistema3/ingreso/ver/lista-de-verificados') }}/"+id;
+        }
+
+
+
+        // para completar el proyecto
+        function verCompletar(id){
+
+            Swal.fire({
+                title: 'Completar Proyecto?',
+                text: "Se pasara a: Proyecto Terminado",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Verificar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    revisar(id);
+                }
+            })
+        }
+
+
+        // esto solo verificara el proyecto a Terminado
+        function revisar(id){
+
+            openLoading();
+
+            let formData = new FormData();
+            formData.append('id', id);
+
+            axios.post(url+'/sistema3/retiromaterial/completar-proyecto', formData, {
+            })
+                .then((response) => {
+                    closeLoading();
+
+                    // verificado
+                    if(response.data.success === 1){
+                        toastMensaje('success', 'Verificado');
+                        recargar();
+                    }
+                    else{
+                        toastMensaje('error', 'Error al verificar');
+                    }
+                })
+                .catch((error) => {
+                    closeLoading();
+                    toastMensaje('error', 'Error al verificar');
+                });
+        }
+
+        // recargar tablas
+        function recargar(){
+            var ruta = "{{ url('sistema3/bodega3/ingresoeditar/listado-tabla') }}/";
+            $('#tablaDatatable').load(ruta);
         }
 
 

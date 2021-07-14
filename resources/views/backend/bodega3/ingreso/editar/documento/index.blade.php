@@ -65,13 +65,13 @@
                                 <div class="col-md-12">
 
                                     <div class="form-group">
-                                        <label>Nombre</label>
-                                        <input type="text" maxlength="100" class="form-control" id="nombre-nuevo" placeholder="Nombre">
+                                        <label>Descripción Documento</label>
+                                        <input type="text" maxlength="100" class="form-control" id="nombre-nuevo" placeholder="Opcional">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Documento</label>
-                                        <input type="file" class="form-control" id="documento" accept="application/pdf" />
+                                        <input type="file" class="form-control" id="documento" accept="application/pdf, image/jpeg, image/jpg, image/png, .csv, .doc, .docx, .xlsx" />
                                     </div>
 
                                 </div>
@@ -123,8 +123,8 @@
             var doc = document.getElementById('documento');
 
             if(doc.files && doc.files[0]){ // si trae documento
-                if (!doc.files[0].type.match('application/pdf')){
-                    alertaMensaje('warning','Inválido', 'Formato permitido: .pdf');
+                if (!doc.files[0].type.match('application/pdf|image/jpeg|image/jpeg|image/png|csv|doc|docx|xlsx')){
+                    alertaMensaje('warning','Inválido', 'Formato permitido: .pdf e imagenes');
                     return false;
                 }
             }else{
@@ -167,6 +167,46 @@
             $('#tablaDatatable').load(ruta);
         }
 
+        function verBorrar(id){
+
+            Swal.fire({
+                title: 'Borrar Documento?',
+                text: "",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Si'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    borrarDocumento(id);
+                }
+            })
+        }
+
+        function borrarDocumento(id){
+
+            openLoading()
+            var formData = new FormData();
+            formData.append('id', id);
+
+            axios.post(url+'/sistema3/ingreso/borrar-documento', formData, {
+            })
+                .then((response) => {
+                    closeLoading();
+                    if(response.data.success === 1){
+                        toastMensaje('success', 'Borrado');
+                        recargar();
+                    }else{
+                        toastMensaje('error', 'Error al borrar');
+                    }
+                })
+                .catch((error) => {
+                    closeLoading();
+                    toastMensaje('error', 'Error al guardar');
+                });
+        }
 
     </script>
 

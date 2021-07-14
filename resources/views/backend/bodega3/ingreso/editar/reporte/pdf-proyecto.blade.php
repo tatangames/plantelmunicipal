@@ -118,7 +118,7 @@
         <div class="content">
             <img src="{{ asset('images/logoalcaldiacolor.png') }}" style="float: right" alt="" height="88px" width="72px">
             <h3>ALCALDIA MUNICIPAL DE METAPAN</h3>
-            <H3>REPORTE</H3>
+            <h3>REPORTE</h3>
         </div>
 
     </div>
@@ -151,21 +151,39 @@
     <p class="fecha"><strong>Código: </strong>{{ $codigo }}</p>
     <p class="fecha"><strong>Nota: </strong>{{ $nota }}</p>
 
-    <table id="tabla">
+    <table id="tabla" style="width: 90%">
         <thead>
         <tr>
-            <th style="text-align: center; width: 40%">Descripción</th>
+            <th style="text-align: center; width: 40%">Cargo</th>
+            <th style="text-align: center; width: 40%">Nombre</th>
+        </tr>
+        </thead>
+        @foreach($lista as $dato)
+            <tr>
+                <td>{{ $dato->nombrecargo }}</td>
+                <td style="text-align: justify">{{ $dato->persona }}</td>
+            </tr>
+        @endforeach
+
+    </table>
+
+    <table id="tabla" style="width: 95%">
+        <thead>
+        <tr>
+            <th style="text-align: center; width: 13%">Fecha</th>
             <th style="text-align: center; width: 11%">Cantidad</th>
+            <th style="text-align: center; width: 40%">Descripción</th>
             <th style="text-align: center; width: 13%">P.U</th>
             <th style="text-align: center; width: 13%">Total</th>
         </tr>
         </thead>
-        @foreach($tablas as $dato)
+        @foreach($dataArray as $dato)
             <tr>
-                <td style="text-align: justify">{{ $dato->nombre }}</td>
-                <td>{{ $dato->cantidad }}</td>
-                <td>$ {{ $dato->preciounitario }}</td>
-                <td>$ {{ $dato->total }}</td>
+                <td>{{ $dato['fecha'] }}</td>
+                <td>{{ $dato['cantidad'] }}</td>
+                <td style="text-align: justify">{{ $dato['nombre'] }}</td>
+                <td>$ {{ $dato['preciounitario'] }}</td>
+                <td>$ {{ $dato['total'] }}</td>
             </tr>
         @endforeach
 
@@ -174,20 +192,7 @@
 </div>
 
 
-<script type="text/php">
-    if (isset($pdf)) {
-        $x = 485;
-        $y = 720;
-        $text = "Página {PAGE_NUM} de {PAGE_COUNT}";
-        $font = null;
-        $size = 10;
-        $color = array(0,0,0);
-        $word_space = 0.0;  //  default
-        $char_space = 0.0;  //  default
-        $angle = 0.0;   //  default
-        $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
-    }
-</script>
+
 
 </body>
 </html>
