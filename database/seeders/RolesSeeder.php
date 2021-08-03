@@ -44,6 +44,10 @@ class RolesSeeder extends Seeder
         // verifica la cantidades, y hace los retiros de bodega
         $role7 = Role::create(['name' => 'Sistema3-Admin2']);
 
+        // SISTEMA 4
+
+        // ingreso de registro de llantas
+        $role8 = Role::create(['name' => 'Sistema4-Admin1']);
 
 
         // --- CREAR PERMISOS ---
@@ -62,6 +66,9 @@ class RolesSeeder extends Seeder
         // SISTEMA 3
         Permission::create(['name' => 'url.bodega3.admin1.ingreso.nuevo-ingreso', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role6);
         Permission::create(['name' => 'url.bodega3.admin2.proyecto.lista-de-proyectos', 'description' => 'Cuando inicia el sistema 2, se redirigirá la vista al grupo Registros, vista ingresos'])->syncRoles($role7);
+
+        // SISTEMA 4
+        Permission::create(['name' => 'url.bodega4.admin1.bodega.ingreso', 'description' => 'Cuando inicia el sistema 4, se redirigirá la vista al grupo Bodega, vista ingresos'])->syncRoles($role8);
 
 
         // Lista de permisos
@@ -106,6 +113,14 @@ class RolesSeeder extends Seeder
 
         Permission::create(['name' => 'grupo.bodega3.proyectos', 'description' => 'Contenedor para el grupo llamado: Proyectos'])->syncRoles($role7);
         Permission::create(['name' => 'vista.grupo.bodega3.proyectos.lista-de-proyectos', 'description' => 'Vista index para grupo Proyectos - vista lista de proyectos'])->syncRoles($role7);
+
+
+        // SISTEMA 4 - CONTROL DE LLANTAS
+        Permission::create(['name' => 'grupo.bodega4.bodega', 'description' => 'Contenedor para el grupo llamado: Ingreso'])->syncRoles($role8);
+
+        Permission::create(['name' => 'grupo.bodega4.registros', 'description' => 'Contenedor para el grupo llamado: Registros'])->syncRoles($role8);
+
+        Permission::create(['name' => 'grupo.bodega4.reportes', 'description' => 'Contenedor para el grupo llamado: Reportes'])->syncRoles($role8);
 
         // - BOTONES -
 

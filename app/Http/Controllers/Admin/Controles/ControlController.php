@@ -58,6 +58,12 @@ class ControlController extends Controller
             $ruta = 'verificacion.bodega3.index';
         }
 
+        // Rol: Bodeguero4 Admin 1
+        else if($user->hasPermissionTo('url.bodega4.admin1.bodega.ingreso')) {
+            $ruta = 'admin4.bodega.ingreso.index';
+        }
+
+
         else{
             // no tiene ningun permiso de vista, redirigir a pantalla sin permisos
             $ruta = 'no.permisos.index';

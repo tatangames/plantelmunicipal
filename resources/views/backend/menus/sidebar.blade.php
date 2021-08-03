@@ -395,6 +395,101 @@
                 </li>
                 @endcan
 
+                    @can('grupo.bodega4.bodega')
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-edit"></i>
+                                <p>
+                                    Bodega
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin4.bodega.ingreso.index') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ingreso</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin4.bodega.retiro.index') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Retiro</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    @endcan
+
+                    @can('grupo.bodega4.registros')
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-edit"></i>
+                                <p>
+                                    Registros
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin4.extras.materiales.index') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Registro de Bodega</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('admin4.extras.listaproveedor.index') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lista de Proveedores</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    @endcan
+
+                    @can('grupo.bodega4.reportes')
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-file"></i>
+                                <p>
+                                    Reportes
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="{{ route('reporte.ingreso.bodega4') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reporte Ingreso</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('reporte.retiro.bodega4') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reporte Retiro</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('informe.bodega4') }}" target="frameprincipal" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Informes</p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    @endcan
+
 
             </ul>
         </nav>

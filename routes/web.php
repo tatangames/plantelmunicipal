@@ -28,7 +28,11 @@ use App\Http\Controllers\Admin\Bodega3\Verificacion\VerificacionB3Controller;
 use App\Http\Controllers\Admin\Bodega3\RetiroMaterial\RetiroMaterialB3Controller;
 use App\Http\Controllers\Admin\Bodega3\Bodega\BodegaUbicacionB3Controller;
 use App\Http\Controllers\Admin\Bodega3\TipoRetiro\TipoRetiroB3Controller;
-
+use App\Http\Controllers\Admin\Bodega4\Proveedor\ProveedorB4Controller;
+use App\Http\Controllers\Admin\Bodega4\RegistroBodega\RegistroBodegaB4Controller;
+use App\Http\Controllers\Admin\Bodega4\Ingreso\IngresoB4Controller;
+use App\Http\Controllers\Admin\Bodega4\Retiro\RetiroB4Controller;
+use App\Http\Controllers\Admin\Bodega4\Reporte\ReporteB4Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -374,4 +378,61 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     // vista donde se edita los materiales de un retiro
     Route::get('sistema3/retiromaterial/vistaeditarmaterial/{id}', [RetiroMaterialB3Controller::class,'indexVistaEditarRetiroMaterial']);
     Route::post('admin/sistema3/retiromaterial/vistaeditarmaterial/modificarretiro', [RetiroMaterialB3Controller::class,'modificarCantidadRetirda']);
+
+
+    // ------------------------------------------------------------------------------------------------------------ //
+
+    // *--- SISTEMA CONTROL DE LLANTAS  ---*
+
+    // --- PROVEEDORES ---
+    Route::get('sistema4/proveedores/listado', [ProveedorB4Controller::class,'index'])->name('admin4.extras.listaproveedor.index');
+    Route::get('sistema4/proveedores/listado-tabla', [ProveedorB4Controller::class,'tablaIndex']);
+
+    Route::post('admin/sistema4/proveedores/ingreso/nuevo', [ProveedorB4Controller::class,'registrarProveedor']);
+    Route::post('admin/sistema4/proveedores/listado-info', [ProveedorB4Controller::class,'infoProveedor']);
+    Route::post('admin/sistema4/proveedores/listado-editar', [ProveedorB4Controller::class,'editarProveedor']);
+
+    // --- MATERIALES (LLANTAS U OTRO) ---
+
+    Route::get('sistema4/materiales/listado', [RegistroBodegaB4Controller::class,'index'])->name('admin4.extras.materiales.index');
+    Route::get('sistema4/materiales/listado-tabla', [RegistroBodegaB4Controller::class,'tablaIndex']);
+
+    Route::post('admin/sistema4/materiales/ingreso/nuevo', [RegistroBodegaB4Controller::class,'nuevoMaterial']);
+    Route::post('admin/sistema4/materiales/listado-info', [RegistroBodegaB4Controller::class,'infoMateriales']);
+    Route::post('admin/sistema4/materiales/listado-editar', [RegistroBodegaB4Controller::class,'editarMateriales']);
+
+    // --- HISTORIAL MATERIALES BODEGA 4 ---
+    Route::get('sistema4/materiales/histo/ingreso/{id}', [RegistroBodegaB4Controller::class,'indexHistorialIngresoB4']);
+    Route::get('sistema4/materiales/histo/ingreso/tabla/{id}', [RegistroBodegaB4Controller::class,'tablaHistorialIngresoB4']);
+
+    Route::get('sistema4/materiales/histo/retiro/{id}', [RegistroBodegaB4Controller::class,'indexHistorialRetiroB4']);
+    Route::get('sistema4/materiales/histo/retiro/tabla/{id}', [RegistroBodegaB4Controller::class,'tablaHistorialRetiroB4']);
+
+    // --- INGRESO BODEGA 4 ---
+    Route::get('admin/sistema4/bodega/ingreso', [IngresoB4Controller::class,'indexBodegaIngreso'])->name('admin4.bodega.ingreso.index');
+    Route::post('admin/sistema4/bodega/buscar/material', [IngresoB4Controller::class,'busquedaMaterial']);
+    Route::post('admin/sistema4/bodega/registrar/material', [IngresoB4Controller::class,'registrarMateriales']);
+
+    // --- RETIRO BODEGA 4 ---
+    Route::get('admin/sistema4/retiro/index', [RetiroB4Controller::class,'indexBodegaRetiro'])->name('admin4.bodega.retiro.index');
+    Route::post('admin/sistema4/retiro/bodega/buscar', [RetiroB4Controller::class,'buscarPersona']);
+    Route::post('admin/sistema4/retiro/bodega/material', [RetiroB4Controller::class,'registrarRetiro']);
+
+    // --- REPORTES BODEGA 4 ---
+    // vistas
+    Route::get('sistema4/reportes/ingreso/bodega4/index', [ReporteB4Controller::class,'indexReporteBodegaIngreso'])->name('reporte.ingreso.bodega4');
+    Route::get('sistema4/reportes/retiro/bodega4/index', [ReporteB4Controller::class,'indexReporteBodegaRetiro'])->name('reporte.retiro.bodega4');
+
+    // reportes pdf
+    Route::get('sistema4/reportes/bodega4/ingreso/{id}/{id2}', [ReporteB4Controller::class,'reporteBodegaIngreso']);
+    Route::get('sistema4/reportes/bodega4/retiro/{id}/{id2}', [ReporteB4Controller::class,'reporteBodegaRetiro']);
+
+    Route::get('sistema4/reportes/bodega4/ingreso-fila/{id}/{id2}', [ReporteB4Controller::class,'reporteBodegaIngresoFila']);
+    Route::get('sistema4/reportes/bodega4/retiro-fila/{id}/{id2}', [ReporteB4Controller::class,'reporteBodegaRetiroFila']);
+
+
+    // --- INFORME DE BODEGA ---
+    Route::get('sistema4/informes/bodega4', [ReporteB4Controller::class,'informesBodega4'])->name('informe.bodega4');
+
+
 
