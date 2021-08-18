@@ -152,7 +152,7 @@
         <p class="fecha"> Fecha: {{ $dato->fecha }}</p>
         <p class="fecha"> Nota: {{ $dato->nota }}</p>
 
-        <table id="tabla" style="width: 90%">
+        <table id="tabla" style="width: 95%">
             <thead>
             <tr>
                 <th style="text-align: center; width: 40%">Descripción</th>
