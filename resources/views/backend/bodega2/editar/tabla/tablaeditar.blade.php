@@ -9,6 +9,7 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Equipo</th>
+                                <th>Proveedor</th>
                                 <th>Nota</th>
                                 <th>Opciones</th>
                             </tr>
@@ -19,6 +20,7 @@
                                 <tr>
                                     <td>{{ $dato->fecha }}</td>
                                     <td>{{ $dato->equiponombre }}</td>
+                                    <td>{{ $dato->proveedor }}</td>
                                     <td>{{ $dato->nota }}</td>
 
                                     <td>

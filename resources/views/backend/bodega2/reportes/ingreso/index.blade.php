@@ -69,6 +69,45 @@
             <button type="button"  class="btn btn-success" onclick="verificar2();">Generar Reporte</button>
         </div>
 
+        <!-- reporte por proveedor -->
+
+        <hr>
+        <div class="card-body">
+
+            <label>Reporte por Proveedor</label>
+            <br>
+
+            <div class="form-group">
+                <div class="form-inline">
+                    <label class="control-label">Fecha De: </label>
+                    <input type="date" id="fecha-de3" class="form-control" style="width: 17%; margin-left: 20px;">
+                    &nbsp;&nbsp;
+                    <label class="control-label" style="margin-left: 15px">Fecha Hasta: </label>
+                    <input type="date" id="fecha-hasta3" class="form-control" style="margin-left: 15px; width: 17%;">
+
+                </div>
+            </div>
+
+            <br>
+
+            <div class="form-group row" style="margin-top: 30px">
+                <label class="control-label">Proveedor: </label>
+                <div class="col-sm-5" style="margin-left: 10px">
+                    <select id="select-proveedor" class="form-control selectpicker" data-live-search="true">
+                        @foreach($proveedor as $item)
+                            <option value="{{$item->id}}">{{$item->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <button type="button"  class="btn btn-success" onclick="verificar3();">Generar Reporte</button>
+        </div>
+
+
+
     </div>
 
 </section>
@@ -122,6 +161,25 @@
             }
 
             window.open("{{ URL::to('sistema2/reportes2/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta + "/" + equipo);
+        }
+
+        function verificar3(){
+
+            var fechadesde = document.getElementById('fecha-de3').value;
+            var fechahasta = document.getElementById('fecha-hasta3').value;
+            var proveedor = document.getElementById('select-proveedor').value;
+
+            if(fechadesde === ''){
+                toastMensaje('error', 'Fecha Desde es Requerido');
+                return;
+            }
+
+            if(fechahasta === ''){
+                toastMensaje('error', 'Fecha Hasta es Requerido');
+                return;
+            }
+
+            window.open("{{ URL::to('sistema2/reportes3/bodega2/ingreso') }}/" + fechadesde + "/" + fechahasta + "/" + proveedor);
         }
 
 

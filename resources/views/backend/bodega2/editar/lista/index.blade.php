@@ -26,11 +26,15 @@
                     <form>
                         <div class="card-body">
 
+                            <div class="form-group col-md-6">
+                                <label>Equipo</label>
+                                <select class="form-control" id="select-equipo">
+                                </select>
+                            </div>
 
                             <div class="form-group col-md-6">
-                                <label></label>
-                                <select class="form-control" id="select-equipo">
-
+                                <label>Proveedor</label>
+                                <select class="form-control" id="select-proveedor">
                                 </select>
                             </div>
 
@@ -112,6 +116,7 @@
         $(document).ready(function(){
 
             var idequipo = {{ $idequipo }};
+            var idproveedor = {{ $idproveedor }};
 
             @foreach($equipos as $data)
 
@@ -121,6 +126,18 @@
                 $('#select-equipo').append('<option value="' + '{{ $data->id }}' +'" selected="selected">'+ '{{ $data->nombre }}' +'</option>');
             }else{
                 $('#select-equipo').append('<option value="' + '{{ $data->id }}' +'">'+ '{{ $data->nombre }}' +'</option>');
+            }
+
+            @endforeach
+
+            @foreach($proveedor as $datapro)
+
+            var identiprove = {{ $datapro->id }};
+
+            if(idproveedor == identiprove){
+                $('#select-proveedor').append('<option value="' + '{{ $datapro->id }}' +'" selected="selected">'+ '{{ $datapro->nombre }}' +'</option>');
+            }else{
+                $('#select-proveedor').append('<option value="' + '{{ $datapro->id }}' +'">'+ '{{ $datapro->nombre }}' +'</option>');
             }
 
             @endforeach
@@ -256,6 +273,7 @@
             var nota = document.getElementById('nota-editar').value;
 
             var selectservicio = document.getElementById('select-equipo').value;
+            var selectproveedor = document.getElementById('select-proveedor').value;
 
             let formData = new FormData();
 
@@ -263,6 +281,7 @@
 
             formData.append('nota', nota);
             formData.append('selectequipo', selectservicio);
+            formData.append('proveedor', selectproveedor);
 
             for(var a = 0; a < identificador.length; a++){
                 formData.append('identificador[]', identificador[a]);

@@ -109,11 +109,13 @@ class IngresoB2Controller extends Controller
 
             $equi = EquiposB2::where('id', $l->id_equipo2)->first();
             $l->equiponombre = $equi->nombre;
+
+            $prove = ProveedoresB2::where('id', $l->proveedorb2_id)->first();
+            $l->proveedor = $prove->nombre;
         }
 
         return view('backend.bodega2.editar.tabla.tablaeditar', compact('listado'));
     }
-
 
     public function listadoEditarRegistro($id){
         $listado = IngresosDetalleB2::where('id_ingresos_b2', $id)->get();
@@ -123,8 +125,10 @@ class IngresoB2Controller extends Controller
         $nota = $info->nota;
 
         $equipos = EquiposB2::orderBy('nombre')->get();
+        $proveedor = ProveedoresB2::orderBy('nombre')->get();
 
         $idequipo = $info->id_equipo2;
+        $idproveedor = $info->proveedorb2_id;
 
         $fila = 0;
 
@@ -134,9 +138,8 @@ class IngresoB2Controller extends Controller
             $l->fila = $fila;
         }
 
-        return view('backend.bodega2.editar.lista.index', compact('listado', 'equipos', 'nota', 'idequipo', 'id'));
+        return view('backend.bodega2.editar.lista.index', compact('listado', 'equipos', 'nota', 'idequipo', 'id', 'idproveedor', 'proveedor'));
     }
-
 
     // editar materiales por un admin calificado
     public function editarMaterialesProyecto(Request $request){
@@ -164,6 +167,7 @@ class IngresoB2Controller extends Controller
             IngresosB2::where('id', $request->id)
                 ->update(['id_equipo2' => $request->selectequipo,
                     'nota' => $request->nota,
+                    'proveedorb2_id' => $request->proveedor
                 ]);
 
             // recorrer cada material para actualizarlo
