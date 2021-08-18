@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Bodega2\Equipos;
 
 use App\Http\Controllers\Controller;
 use App\Models\EquiposB2;
+use App\Models\ProveedoresB2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -86,4 +87,81 @@ class Equipos2Controller extends Controller
 
         return ['success' => 1]; // actualizado
     }
+
+
+    // para proveedores
+    public function indexProveedor(){
+        return view('backend.bodega2.proveedor.index');
+    }
+
+    public function tablaIndexProveedor(){
+        $listado = ProveedoresB2::orderBy('nombre')->get();
+        return view('backend.bodega2.proveedor.tabla.tablaproveedor', compact('listado'));
+    }
+
+    public function nuevoProveedor(Request $request){
+
+        $regla2 = array(
+            'nombre' => 'required',
+        );
+
+        $validar2 = Validator::make($request->all(), $regla2);
+
+        if($validar2->fails()){return ['success' => 0];}
+
+        $equipo = new ProveedoresB2();
+        $equipo->nombre = $request->nombre;
+        $equipo->activo = 1;
+
+        if($equipo->save()){
+            return ['success' => 1]; // guardado
+        }else{
+            return ['success' => 2];
+        }
+
+    }
+
+    public function infoProveedor(Request $request){
+
+        $regla = array(
+            'id' => 'required'
+        );
+
+        $validar = Validator::make($request->all(), $regla);
+
+        if ($validar->fails()){return ['success' => 0];}
+
+        if($data = ProveedoresB2::where('id', $request->id)->first()){
+
+            return ['success' => 1, 'info' => $data];
+        }else{
+            return ['success' => 2];
+        }
+
+    }
+
+    public function editarProveedor(Request $request){
+
+        $regla = array(
+            'id' => 'required',
+            'toggle' => 'required',
+            'nombre' => 'required'
+        );
+
+        $validar = Validator::make($request->all(), $regla );
+
+        if ($validar->fails()){
+            return ['success' => 0];
+        }
+
+        ProveedoresB2::where('id', $request->id)
+            ->update(['nombre' => $request->nombre,
+                'activo' => $request->toggle
+            ]);
+
+        return ['success' => 1]; // actualizado
+    }
+
+
+
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\EquiposB2;
 use App\Models\IngresosB2;
 use App\Models\IngresosDetalleB2;
+use App\Models\ProveedoresB2;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,12 @@ class IngresoB2Controller extends Controller
             ->orderBy('nombre')
             ->get();
 
-        return view('backend.bodega2.ingreso.index', compact('equipo'));
+        $proveedor = ProveedoresB2::where('activo', 1)
+            ->select('id', 'nombre')
+            ->orderBy('nombre')
+            ->get();
+
+        return view('backend.bodega2.ingreso.index', compact('equipo', 'proveedor'));
     }
 
     // ingreso de registros para x equipo

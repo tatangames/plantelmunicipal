@@ -186,6 +186,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')
     Route::post('admin/sistema2/equipos/listado-info', [Equipos2Controller::class,'infoEquipo']);
     Route::post('admin/sistema2/equipos/listado-editar', [Equipos2Controller::class,'editarEquipo']);
 
+
+    Route::get('sistema2/proveedores/listado', [Equipos2Controller::class,'indexProveedor'])->name('admin2.proveedores.index');
+    Route::get('sistema2/proveedores/listado-tabla', [Equipos2Controller::class,'tablaIndexProveedor']);
+    Route::post('admin/sistema2/proveedores/listado-nuevo', [Equipos2Controller::class,'nuevoProveedor']);
+    Route::post('admin/sistema2/proveedores/listado-info', [Equipos2Controller::class,'infoProveedor']);
+    Route::post('admin/sistema2/proveedores/listado-editar', [Equipos2Controller::class,'editarProveedor']);
+
+
     // --- REGISTRO PARA EQUIPOS ---
     Route::get('sistema2/bodega2/ingreso', [IngresoB2Controller::class,'indexBodega2Ingreso'])->name('registro.bodega2.index');
     Route::post('admin/sistema2/bodega2/registrar/material', [IngresoB2Controller::class,'registrarDetalleEquipo']);

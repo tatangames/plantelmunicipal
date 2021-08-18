@@ -38,6 +38,17 @@
                             </div>
 
                             <div class="form-group row" style="margin-top: 30px">
+                                <label class="control-label">Proveedor: </label>
+                                <div class="col-sm-5" style="margin-left: 10px">
+                                    <select id="select-proveedor" class="form-control selectpicker" data-live-search="true">
+                                        @foreach($proveedor as $item)
+                                            <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-top: 30px">
                                 <label class="control-label">Notas: </label>
                                 <input style="margin-left: 25px" class="col-sm-7 form-control" id="notas" maxlength="300" type="text">
                             </div>
@@ -286,6 +297,7 @@
             // verificar los primeros campos select
             var nota = document.getElementById('notas').value;
             var equipo = document.getElementById('select-equipo').value;
+            var proveedor = document.getElementById('select-proveedor').value;
 
             var material = $("input[name='material[]']").map(function(){return $(this).val();}).get();
             var codigo = $("input[name='descripcion[]']").map(function(){return $(this).val();}).get();
@@ -296,6 +308,7 @@
 
             formData.append('nota', nota);
             formData.append('equipo', equipo);
+            formData.append('proveedor', proveedor);
 
             // solo con recorrer material es suficiente, por tener la misma cantidad de filas
             for(var a = 0; a < material.length; a++){

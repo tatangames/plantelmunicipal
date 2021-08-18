@@ -267,6 +267,13 @@
                             </li>
 
                             <li class="nav-item">
+                                <a href="{{ route('admin2.proveedores.index') }}" target="frameprincipal" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Proveedores</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a href="{{ route('reporte.ingreso.bodega2') }}" target="frameprincipal" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Reportes</p>
